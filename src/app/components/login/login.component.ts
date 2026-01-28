@@ -18,6 +18,7 @@ export class LoginComponent {
   onSubmit(): void {
    //  console.log('Email:', this.email);
   //    console.log('Password:', this.password);
+  //ciaooooooooooooo nuova modifica
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response: any) => {
