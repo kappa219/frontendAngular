@@ -7,6 +7,7 @@ export interface User {
   username: string;
   email: string;
   token?: string;
+  role?: string;
 }
 
 @Injectable({
@@ -29,6 +30,14 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password });
+  }
+
+  hasRole(role: string): boolean {
+    if (
+      this.currentUser()?.role === "Admin") {
+      return true;
+    }
+    else return false;
   }
 
   // Chiamare dopo login riuscito
@@ -60,7 +69,8 @@ export class AuthService {
       if (decoded) {
         this.currentUser.set({
           username: decoded.username || decoded.sub,
-          email: decoded.email || ''
+          email: decoded.email || '',
+          role: decoded.role || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
         });
       }
     }

@@ -16,8 +16,8 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit(): void {
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
+   //  console.log('Email:', this.email);
+  //    console.log('Password:', this.password);
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response: any) => {

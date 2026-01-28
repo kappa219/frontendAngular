@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Aggiungi Dipendente</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="dipendente.nome" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Cognome</mat-label>
+    <input matInput [(ngModel)]="dipendente.cognome" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Data Assunzione</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="dipendente.dataAssunzione" required>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Età</mat-label>
+    <input matInput type="number" [(ngModel)]="dipendente.eta" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Stipendio</mat-label>
+    <input matInput type="number" [(ngModel)]="dipendente.stipendio">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Mansione</mat-label>
+    <mat-select [(ngModel)]="dipendente.tipologiaLavoroId">
+      @for (tipologia of tipologieLavoro(); track tipologia.id) {
+        <mat-option [value]="tipologia.id">{{tipologia.descrizione}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="annulla()">Annulla</button>
+  <button mat-raised-button color="primary" (click)="salva()">Salva</button>
+</mat-dialog-actions>
