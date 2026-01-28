@@ -13,7 +13,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,non era prova) { }
 
   onSubmit(): void {
    //  console.log('Email:', this.email);
