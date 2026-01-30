@@ -69,3 +69,7 @@ h1 {
 .addDipend {
   margin: 20px 40px;
 }
+
+.clickable-row {
+  cursor: pointer;
+}

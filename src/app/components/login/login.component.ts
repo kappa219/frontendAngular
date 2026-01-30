@@ -13,7 +13,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router   ,certo) { }
+  constructor(private authService: AuthService, private router: Router ) { }
 
   onSubmit(): void {
    //  console.log('Email:', this.email);

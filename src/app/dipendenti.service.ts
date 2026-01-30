@@ -36,4 +36,8 @@ export class DipendentiService {
   getTipologieLavoro() {
     return this.http.get<TipologiaLavoro[]>('http://localhost:5188/api/TipologiaLavoro');
   }
+
+  getDipendente(id: string) {
+    return this.http.get<Dipendente>(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`);
+  }
 }
