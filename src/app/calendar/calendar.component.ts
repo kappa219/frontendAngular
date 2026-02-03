@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
+import { CommonModule } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PostItDialogComponent, PostIt } from './../components/post-it-dialog/post-it-dialog.component';
+import { PostItService } from '../services/post-it.service';
 
 @Component({
   selector: 'app-calendar',
@@ -9,15 +13,20 @@ import { CommonModule } from '@angular/common';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class MyCalendarComponent {
+export class MyCalendarComponent implements OnInit {
+  private dialog = inject(MatDialog);
+  private postItService = inject(PostItService);
+
+  @Input() dipendenteId!: string;
+
   currentDate = new Date();
   currentMonth = '';
   currentYear = 0;
   selectedDay: number | null = null;
   view: 'month' | 'week' = 'week';
 
-  // Map per salvare gli eventi: chiave = "YYYY-MM-DD-HH", valore = testo evento
-  events: Map<string, string> = new Map();
+  // Map per salvare gli eventi: chiave = "YYYY-MM-DD-HH", valore = PostIt
+  events: Map<string, PostIt> = new Map();
 
   // Per vista mensile
   daysInMonth: (number | null)[] = [];
@@ -35,6 +44,31 @@ export class MyCalendarComponent {
 
   constructor() {
     this.updateCalendar();
+  }
+
+  ngOnInit(): void {
+    this.caricaPostIt();
+  }
+
+  caricaPostIt(): void {
+    if (!this.dipendenteId) return;
+    this.postItService.getPostItById(this.dipendenteId).subscribe({
+      next: (postIts) => {
+        console.log('Dati ricevuti dal backend:', postIts);
+        postIts.forEach((postIt: any) => {
+          const oraValue = postIt.ora ?? postIt.Ora ?? 0;
+          console.log('PostIt:', postIt, 'ora:', oraValue);
+          const data = new Date(postIt.data || postIt.Data);
+          const chiave = this.getEventKey(data, oraValue);
+          console.log('Chiave generata:', chiave);
+          this.events.set(chiave, { ...postIt, ora: oraValue });
+        });
+        console.log('Events Map:', Array.from(this.events.entries()));
+      },
+      error: (err) => {
+        console.error('Errore nel caricamento dei post-it:', err);
+      }
+    });
   }
 
   updateCalendar(): void {
@@ -136,11 +170,61 @@ export class MyCalendarComponent {
   }
 
   onCellClick(day: Date, hour: number) {
-    const testo = prompt('Inserisci evento:');
-    if (testo) {
-      const chiave = this.getEventKey(day, hour);
-      this.events.set(chiave, testo);
-    }
+    const chiave = this.getEventKey(day, hour);
+    const esistente = this.events.get(chiave);
+
+    const dialogRef = this.dialog.open(PostItDialogComponent, {
+      width: '400px',
+      data: esistente || { data: day, ora: hour }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result, "prima di modifica");
+      console.log('Eventi:', Array.from(this.events.entries()));
+
+      if (result?.deleted) {
+        console.log("cancellato");
+        this.events.delete(chiave);
+        if (result.id) {
+          this.postItService.eliminaPostIt(result.id).subscribe({
+            next: () => {
+              console.log("eliminato dal backend");
+            },
+            error: (err) => {
+              console.error("errore nella cancellazione", err);
+            }
+          });
+        } else {
+          console.log("eliminato solo localmente (post-it non ancora salvato)");
+        }
+      } else if (result) {
+        this.events.set(chiave, result);
+        const postItDaSalvare = {...result, dipendenteId: this.dipendenteId};
+
+        if (result.id) {
+          // Modifica (PUT)
+          this.postItService.aggiornaPostIt(result.id, postItDaSalvare).subscribe({
+            next: () => {
+              console.log("modificato con successo");
+            },
+            error: (err) => {
+              console.error("errore nella modifica", err);
+            }
+          });
+        } else {
+          // Nuovo (POST)
+          this.postItService.salvaPostIt(postItDaSalvare).subscribe({
+            next: () => {
+              console.log("salvato con successo");
+              this.caricaPostIt(); // Ricarica per ottenere l'id
+            },
+            error: (err) => {
+              console.error("errore nel salvataggio dei dati", err);
+            }
+          });
+        }
+      }
+    });
   }
 
   // Crea chiave unica: "2026-01-29-14"
@@ -153,6 +237,7 @@ export class MyCalendarComponent {
 
   // Recupera l'evento per una cella
   getEvent(day: Date, hour: number): string {
-    return this.events.get(this.getEventKey(day, hour)) || '';
+    const evento: any = this.events.get(this.getEventKey(day, hour));
+    return evento ? evento.titoloNota : '';
   }
 }

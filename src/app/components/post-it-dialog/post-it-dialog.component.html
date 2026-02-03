@@ -1,0 +1,30 @@
+<div class="post-it-container">
+  <div class="post-it-header">
+    <mat-icon>Note</mat-icon>
+    <h2 mat-dialog-title>Nuova Nota</h2>
+     <button class="deletenote" mat-raised-button color="warn" (click)="deletenota()">Elimina la nota</button>
+  </div>
+
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titolo</mat-label>
+      <input matInput [(ngModel)]="nota.titoloNota" placeholder="Titolo della nota...">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Note</mat-label>
+      <textarea matInput [(ngModel)]="nota.note"
+                placeholder="Scrivi la tua nota..."
+                rows="6"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    
+    <button mat-button (click)="annulla()">Annulla</button>
+    <button mat-raised-button color="primary" (click)="salva()">
+      <mat-icon>save</mat-icon>
+      Salva
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,52 @@
+.post-it-container {
+  background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+  padding: 8px;
+  border-radius: 2px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.post-it-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e0c94c;
+}
+
+.post-it-header mat-icon {
+  color: #f9a825;
+}
+
+.post-it-header h2 {
+  margin: 0;
+  color: #5d4037;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+::ng-deep .post-it-container .mat-mdc-form-field {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+
+::ng-deep .post-it-container textarea {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  resize: none;
+}
+
+mat-dialog-actions {
+  padding-top: 16px;
+  border-top: 1px dashed #e0c94c;
+}
+
+mat-dialog-actions button[mat-raised-button] {
+  background-color: #f9a825 !important;
+  color: white;
+}
+.deletenote {
+  margin-left: auto;
+}

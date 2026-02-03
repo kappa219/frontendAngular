@@ -1,5 +1,9 @@
+/* ========================================
+   CALENDARIO - Container principale
+   ======================================== */
 .calendar {
-  max-width: 900px;
+  max-width: 1400px;
+  width: 95%;
   margin: 20px auto;
   font-family: Arial, sans-serif;
   border: 1px solid #ddd;
@@ -8,7 +12,9 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
+/* ========================================
+   HEADER - Navigazione mese/settimana
+   ======================================== */
 .header {
   display: flex;
   justify-content: space-between;
@@ -37,7 +43,9 @@
   font-weight: bold;
 }
 
-/* Toggle vista */
+/* ========================================
+   TOGGLE VISTA - Pulsanti Mese/Settimana
+   ======================================== */
 .view-toggle {
   display: flex;
   justify-content: center;
@@ -65,7 +73,9 @@
   background-color: #e3f2fd;
 }
 
-/* Vista Mensile */
+/* ========================================
+   VISTA MENSILE
+   ======================================== */
 .month-view .days-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -107,14 +117,24 @@
   color: white;
 }
 
-/* Vista Settimanale */
+/* ========================================
+   VISTA SETTIMANALE - Container
+   ======================================== */
 .week-view {
   background: white;
 }
 
+.week-body {
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+/* ========================================
+   VISTA SETTIMANALE - Header giorni
+   ======================================== */
 .week-header {
   display: grid;
-  grid-template-columns: 60px repeat(7, 1fr);
+  grid-template-columns: 80px repeat(7, 1fr);
   border-bottom: 1px solid #ddd;
   position: sticky;
   top: 0;
@@ -161,15 +181,13 @@
   justify-content: center;
 }
 
-.week-body {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
+/* ========================================
+   VISTA SETTIMANALE - Righe orarie
+   ======================================== */
 .time-row {
   display: grid;
-  grid-template-columns: 60px repeat(7, 1fr);
-  min-height: 50px;
+  grid-template-columns: 80px repeat(7, 1fr);
+  min-height: 100px;
   border-bottom: 1px solid #eee;
 }
 
@@ -181,24 +199,22 @@
   border-right: 1px solid #ddd;
 }
 
+/* ========================================
+   VISTA SETTIMANALE - Celle (Post-it)
+   ======================================== */
 .time-cell {
   border-right: 1px solid #eee;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .time-cell:hover {
-  background-color: #f5f5f5;
+  background-color: #ffe0b2;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translate(-3px, -3px);
+  z-index: 5;
 }
 
 .time-cell.today {
   background-color: #fafafa;
-}.time-cell {
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.time-cell:hover {
-  background-color: rgba(80, 120, 162, 1.1);
-  transform: scale(1.50);  /* ingrandisce del 5% */
 }
