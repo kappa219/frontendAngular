@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 export interface PostIt {
   id?: string;
@@ -16,6 +17,8 @@ export interface PostIt {
   mansione: string;
   data: Date;
   ora: number;
+  orarioInizio?: string;
+  orarioFine?: string;
   dipendenteId?: string;
 }
 
@@ -29,7 +32,8 @@ export interface PostIt {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   templateUrl: './post-it-dialog.component.html',
   styleUrl: './post-it-dialog.component.css'
@@ -37,7 +41,23 @@ export interface PostIt {
 export class PostItDialogComponent {
   private dialogRef = inject(MatDialogRef<PostItDialogComponent>);
   private data = inject<PostIt | null>(MAT_DIALOG_DATA, { optional: true });
-  
+
+  // Ore disponibili dalle 8:00 alle 20:00 con intervalli di 30 minuti
+  oreDisponibili: string[] = this.generaOre();
+
+  orarioInizio: string = this.data?.orarioInizio || '08:00';
+  orarioFine: string = this.data?.orarioFine || '17:00';
+
+  private generaOre(): string[] {
+    const ore: string[] = [];
+    for (let h = 8; h <= 20; h++) {
+      ore.push(`${h.toString().padStart(2, '0')}:00`);
+      if (h < 20) {
+        ore.push(`${h.toString().padStart(2, '0')}:30`);
+      }
+    }
+    return ore;
+  }
 
   nota: PostIt = {
     id: this.data?.id,
@@ -52,8 +72,11 @@ export class PostItDialogComponent {
 
   salva() {
     if (this.nota.titoloNota || this.nota.note) {
-
-      this.dialogRef.close(this.nota);
+      this.dialogRef.close({
+        ...this.nota,
+        orarioInizio: this.orarioInizio,
+        orarioFine: this.orarioFine
+      });
     }
   }
 

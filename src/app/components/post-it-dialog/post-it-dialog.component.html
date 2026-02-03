@@ -1,8 +1,8 @@
 <div class="post-it-container">
   <div class="post-it-header">
     <mat-icon>Note</mat-icon>
-    <h2 mat-dialog-title>Nuova Nota</h2>
-     <button class="deletenote" mat-raised-button color="warn" (click)="deletenota()">Elimina la nota</button>
+    <h2 mat-dialog-title>Giornata lavorativa</h2>
+     <button class="deletenote" mat-raised-button color="warn" (click)="deletenota()">Elimina</button>
   </div>
 
   <mat-dialog-content>
@@ -16,7 +16,30 @@
       <textarea matInput [(ngModel)]="nota.note"
                 placeholder="Scrivi la tua nota..."
                 rows="6"></textarea>
+
     </mat-form-field>
+    <div class="orari-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Orario Inizio</mat-label>
+        <mat-select [(ngModel)]="orarioInizio">
+          @for (ora of oreDisponibili; track ora) {
+            <mat-option [value]="ora">{{ ora }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Orario Fine</mat-label>
+        <mat-select [(ngModel)]="orarioFine">
+          @for (ora of oreDisponibili; track ora) {
+            <mat-option [value]="ora">{{ ora }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

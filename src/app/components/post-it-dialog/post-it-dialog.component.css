@@ -1,7 +1,34 @@
+/* Rimuove bordi bianchi del dialog Material */
+::ng-deep .mat-mdc-dialog-container {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .mdc-dialog__surface {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-dialog-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  background: transparent !important;
+}
+
 .post-it-container {
   background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
-  padding: 8px;
-  border-radius: 2px;
+  padding: 16px;
+  border-radius: 4px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -49,4 +76,14 @@ mat-dialog-actions button[mat-raised-button] {
 }
 .deletenote {
   margin-left: auto;
+}
+
+.orari-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.orari-container mat-form-field {
+  flex: 1;
 }
