@@ -56,12 +56,13 @@ export class MyCalendarComponent implements OnInit {
       next: (postIts) => {
         console.log('Dati ricevuti dal backend:', postIts);
         postIts.forEach((postIt: any) => {
-          const oraValue = postIt.ora ?? postIt.Ora ?? 0;
-          console.log('PostIt:', postIt, 'ora:', oraValue);
+          const oraInizio = postIt.oraInizio ?? postIt.OraInizio ?? '08:00';
+          const ora = this.estraiOra(oraInizio);
+          console.log('PostIt:', postIt, 'oraInizio:', oraInizio);
           const data = new Date(postIt.data || postIt.Data);
-          const chiave = this.getEventKey(data, oraValue);
+          const chiave = this.getEventKey(data, ora);
           console.log('Chiave generata:', chiave);
-          this.events.set(chiave, { ...postIt, ora: oraValue });
+          this.events.set(chiave, { ...postIt, oraInizio, oraFine: postIt.oraFine ?? postIt.OraFine });
         });
         console.log('Events Map:', Array.from(this.events.entries()));
       },
@@ -69,6 +70,11 @@ export class MyCalendarComponent implements OnInit {
         console.error('Errore nel caricamento dei post-it:', err);
       }
     });
+  }
+
+  // Estrae l'ora numerica da una stringa "HH:MM"
+  private estraiOra(oraString: string): number {
+    return parseInt(oraString.split(':')[0], 10);
   }
 
   updateCalendar(): void {
@@ -175,7 +181,7 @@ export class MyCalendarComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PostItDialogComponent, {
       width: '400px',
-      data: esistente || { data: day, ora: hour }
+      data: esistente || { data: day, oraInizio: this.formatHour(hour), oraFine: this.formatHour(hour + 1) }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -198,14 +204,26 @@ export class MyCalendarComponent implements OnInit {
           console.log("eliminato solo localmente (post-it non ancora salvato)");
         }
       } else if (result) {
-        this.events.set(chiave, result);
-        const postItDaSalvare = {...result, dipendenteId: this.dipendenteId};
+        // Aggiorna la chiave se l'ora di inizio è cambiata
+        const nuovaOra = this.estraiOra(result.oraInizio);
+        const nuovaChiave = this.getEventKey(new Date(result.data), nuovaOra);
+
+        // Rimuovi dalla vecchia posizione e aggiungi alla nuova
+        this.events.delete(chiave);
+        this.events.set(nuovaChiave, result);
+
+        const postItDaSalvare = {
+          ...result,
+          OraInizio: result.oraInizio,
+          OraFine: result.oraFine,
+          dipendenteId: this.dipendenteId
+        };
 
         if (result.id) {
           // Modifica (PUT)
           this.postItService.aggiornaPostIt(result.id, postItDaSalvare).subscribe({
             next: () => {
-              console.log("modificato con successo");
+              console.log("modificato con successo", postItDaSalvare);
             },
             error: (err) => {
               console.error("errore nella modifica", err);
@@ -216,6 +234,7 @@ export class MyCalendarComponent implements OnInit {
           this.postItService.salvaPostIt(postItDaSalvare).subscribe({
             next: () => {
               console.log("salvato con successo");
+
               this.caricaPostIt(); // Ricarica per ottenere l'id
             },
             error: (err) => {

@@ -21,7 +21,7 @@
     <div class="orari-container">
       <mat-form-field appearance="outline">
         <mat-label>Orario Inizio</mat-label>
-        <mat-select [(ngModel)]="orarioInizio">
+        <mat-select [(ngModel)]="oraInizio">
           @for (ora of oreDisponibili; track ora) {
             <mat-option [value]="ora">{{ ora }}</mat-option>
           }
@@ -30,14 +30,20 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Orario Fine</mat-label>
-        <mat-select [(ngModel)]="orarioFine">
+        <mat-select [(ngModel)]="oraFine">
           @for (ora of oreDisponibili; track ora) {
             <mat-option [value]="ora">{{ ora }}</mat-option>
           }
+
         </mat-select>
       </mat-form-field>
+  
     </div>
-
+         @if(orarioInvalido) {
+        <div class="error-message">
+          L'orario di fine deve essere successivo all'orario di inizio.
+        </div>
+      } 
 
 
   </mat-dialog-content>

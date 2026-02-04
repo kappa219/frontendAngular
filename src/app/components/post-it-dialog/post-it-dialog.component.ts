@@ -16,9 +16,8 @@ export interface PostIt {
   azienda: string;
   mansione: string;
   data: Date;
-  ora: number;
-  orarioInizio?: string;
-  orarioFine?: string;
+  oraInizio?: string;
+  oraFine?: string;
   dipendenteId?: string;
 }
 
@@ -45,8 +44,8 @@ export class PostItDialogComponent {
   // Ore disponibili dalle 8:00 alle 20:00 con intervalli di 30 minuti
   oreDisponibili: string[] = this.generaOre();
 
-  orarioInizio: string = this.data?.orarioInizio || '08:00';
-  orarioFine: string = this.data?.orarioFine || '17:00';
+  oraInizio: string = this.data?.oraInizio || '08:00';
+  oraFine: string = this.data?.oraFine || '17:00';
 
   private generaOre(): string[] {
     const ore: string[] = [];
@@ -66,16 +65,20 @@ export class PostItDialogComponent {
     oreLavorate: this.data?.oreLavorate || 0,
     azienda: this.data?.azienda || '',
     mansione: this.data?.mansione || '',
-    data: this.data?.data || new Date(),
-    ora: this.data?.ora || 0
+    data: this.data?.data || new Date()
   };
 
+  get orarioInvalido(): boolean {
+  return this.oraInizio >= this.oraFine;
+}
+
+
   salva() {
-    if (this.nota.titoloNota || this.nota.note) {
+    if ((this.nota.titoloNota || this.nota.note ) && !this.orarioInvalido) {
       this.dialogRef.close({
         ...this.nota,
-        orarioInizio: this.orarioInizio,
-        orarioFine: this.orarioFine
+        oraInizio: this.oraInizio,
+        oraFine: this.oraFine
       });
     }
   }
