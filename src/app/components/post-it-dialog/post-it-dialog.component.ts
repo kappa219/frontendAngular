@@ -74,7 +74,7 @@ export class PostItDialogComponent {
 
 
   salva() {
-    if ((this.nota.titoloNota || this.nota.note ) && !this.orarioInvalido) {
+    if ((this.nota.titoloNota && this.nota.note && this.oraInizio && this.oraFine) && !this.orarioInvalido) {
       this.dialogRef.close({
         ...this.nota,
         oraInizio: this.oraInizio,

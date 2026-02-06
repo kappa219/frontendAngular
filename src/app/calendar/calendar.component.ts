@@ -33,7 +33,7 @@ export class MyCalendarComponent implements OnInit {
 
   // Per vista settimanale
   weekDays: Date[] = [];
-  hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+  hours: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
 
   private monthNames = [
     'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
@@ -56,13 +56,17 @@ export class MyCalendarComponent implements OnInit {
       next: (postIts) => {
         console.log('Dati ricevuti dal backend:', postIts);
         postIts.forEach((postIt: any) => {
-          const oraInizio = postIt.oraInizio ?? postIt.OraInizio ?? '08:00';
+          const oraInizioRaw = postIt.oraInizio ?? postIt.OraInizio ?? '08:00';
+          const oraFineRaw = postIt.oraFine ?? postIt.OraFine ?? '17:00';
+          // Normalizza a formato HH:mm (rimuove i secondi se presenti, es. "09:00:00" -> "09:00")
+          const oraInizio = oraInizioRaw.substring(0, 5);
+          const oraFine = oraFineRaw.substring(0, 5);
           const ora = this.estraiOra(oraInizio);
           console.log('PostIt:', postIt, 'oraInizio:', oraInizio);
           const data = new Date(postIt.data || postIt.Data);
           const chiave = this.getEventKey(data, ora);
           console.log('Chiave generata:', chiave);
-          this.events.set(chiave, { ...postIt, oraInizio, oraFine: postIt.oraFine ?? postIt.OraFine });
+          this.events.set(chiave, { ...postIt, oraInizio, oraFine });
         });
         console.log('Events Map:', Array.from(this.events.entries()));
       },
@@ -82,7 +86,8 @@ export class MyCalendarComponent implements OnInit {
     this.currentYear = this.currentDate.getFullYear();
 
     if (this.view === 'month') {
-      this.generateDays();
+     // this.generateDays();
+     this.generateWeek();
     } else {
       this.generateWeek();
     }
@@ -165,7 +170,7 @@ export class MyCalendarComponent implements OnInit {
 
   isToday(date: Date): boolean {
     const today = new Date();
-    return date.toDateString() === today.toDateString();
+    return date. toDateString() === today.toDateString();
   }
 
   getWeekRange(): string {
@@ -258,5 +263,22 @@ export class MyCalendarComponent implements OnInit {
   getEvent(day: Date, hour: number): string {
     const evento: any = this.events.get(this.getEventKey(day, hour));
     return evento ? evento.titoloNota : '';
+  }
+
+
+
+
+  isWorkHour(day: Date, hour: number): boolean {
+    for (const [, evento] of this.events) {
+      const eventoData = new Date((evento as any).data || (evento as any).Data);
+      if (eventoData.toDateString() === day.toDateString()) {
+        const oraInizio = this.estraiOra((evento as any).oraInizio);
+        const oraFine = this.estraiOra((evento as any).oraFine);
+        if (hour >= oraInizio && hour < oraFine) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

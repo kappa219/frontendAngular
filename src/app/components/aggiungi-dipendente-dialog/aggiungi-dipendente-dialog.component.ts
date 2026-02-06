@@ -33,7 +33,7 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<AggiungiDipendenteDialogComponent>);
   private dipendentiService = inject(DipendentiService);
 
-  tipologieLavoro = signal<TipologiaLavoro[]>( []);
+  tipologieLavoro = signal<TipologiaLavoro[]>([]);
 
 
   dipendente = {
@@ -41,7 +41,7 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
     cognome: '',
     eta: 0,
     stipendio: 0,
-    dataAssunzione: '',
+    dataAssunzione: null as Date | null,
     tipologiaLavoroId: ''
   };
 
@@ -52,7 +52,13 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
   }
 
   salva() {
-    this.dipendentiService.salvaDipendente(this.dipendente).subscribe({
+    const payload = {
+      ...this.dipendente,
+      dataAssunzione: this.dipendente.dataAssunzione
+        ? this.dipendente.dataAssunzione.toISOString()
+        : undefined
+    };
+    this.dipendentiService.salvaDipendente(payload).subscribe({
       next: () => {
         this.dialogRef.close(true);
       },

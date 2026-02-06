@@ -45,6 +45,7 @@
         <div *ngFor="let day of weekDays"
              class="time-cell"
              [class.today]="isToday(day)"
+             [class.work-hour]="isWorkHour(day,hour)"
              (click)="onCellClick(day,hour)">
           {{ getEvent(day, hour) }}
         </div>
