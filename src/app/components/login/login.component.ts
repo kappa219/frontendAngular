@@ -1,35 +1,41 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  errorMessage: string = '';
+  mostraPassword: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router ) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit(): void {
-   //  console.log('Email:', this.email);
-  //    console.log('Password:', this.password);
-  //ciaooooofdggffd prova
+    this.errorMessage = '';
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response: any) => {
         console.log('Login successful:', response);
-        // Salva utente e token dopo login riuscito
         this.authService.setUser(response.user, response.token);
         this.router.navigate(['/dashboard']);
       },
       error: (error: any) => {
         console.error('Login fallita:', error);
-        alert('Login failed: ' + (error.error?.message || error.statusText));
+        if (error.status === 401) {
+          this.errorMessage = 'Email o password errata.';
+        } else if (error.status === 0) {
+          this.errorMessage = 'Impossibile contattare il server.';
+        } else {
+          this.errorMessage = error.error?.message || 'Errore durante il login.';
+        }
       }
     });
   }

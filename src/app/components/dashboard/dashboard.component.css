@@ -73,3 +73,14 @@ h1 {
 .clickable-row {
   cursor: pointer;
 }
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin: 0 40px 10px 40px;
+  flex-wrap: wrap;
+}
+
+.filters mat-form-field {
+  min-width: 220px;
+}

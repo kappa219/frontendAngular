@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PostItDialogComponent, PostIt } from './../components/post-it-dialog/post-it-dialog.component';
 import { PostItService } from '../services/post-it.service';
 
@@ -15,6 +16,7 @@ import { PostItService } from '../services/post-it.service';
 })
 export class MyCalendarComponent implements OnInit {
   private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
   private postItService = inject(PostItService);
 
   @Input() dipendenteId!: string;
@@ -86,8 +88,8 @@ export class MyCalendarComponent implements OnInit {
     this.currentYear = this.currentDate.getFullYear();
 
     if (this.view === 'month') {
-     // this.generateDays();
-     this.generateWeek();
+      this.generateDays();
+    // this.generateWeek();
     } else {
       this.generateWeek();
     }
@@ -181,8 +183,11 @@ export class MyCalendarComponent implements OnInit {
   }
 
   onCellClick(day: Date, hour: number) {
-    const chiave = this.getEventKey(day, hour);
-    const esistente = this.events.get(chiave);
+    const esistente = this.findEventAt(day, hour);
+    // La chiave reale è quella dell'ora di inizio dell'evento (se esiste)
+    const chiave = esistente
+      ? this.getEventKey(day, this.estraiOra((esistente as any).oraInizio))
+      : this.getEventKey(day, hour);
 
     const dialogRef = this.dialog.open(PostItDialogComponent, {
       width: '400px',
@@ -209,9 +214,21 @@ export class MyCalendarComponent implements OnInit {
           console.log("eliminato solo localmente (post-it non ancora salvato)");
         }
       } else if (result) {
-        // Aggiorna la chiave se l'ora di inizio è cambiata
         const nuovaOra = this.estraiOra(result.oraInizio);
-        const nuovaChiave = this.getEventKey(new Date(result.data), nuovaOra);
+        const nuovaOraFine = this.estraiOra(result.oraFine);
+        const dataEvento = new Date(result.data);
+
+        // Controlla sovrapposizione (escludi l'evento corrente se è una modifica)
+        if (this.hasSovrapposizione(dataEvento, nuovaOra, nuovaOraFine, chiave)) {
+          this.snackBar.open('Esiste già un evento in questa fascia oraria!', 'Chiudi', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+          });
+          return;
+        }
+
+        const nuovaChiave = this.getEventKey(dataEvento, nuovaOra);
 
         // Rimuovi dalla vecchia posizione e aggiungi alla nuova
         this.events.delete(chiave);
@@ -259,10 +276,56 @@ export class MyCalendarComponent implements OnInit {
     return `${anno}-${mese}-${giorno}-${hour}`;
   }
 
-  // Recupera l'evento per una cella
+  // Controlla se un evento si sovrappone con altri nella stessa giornata
+  // escludiChiave: la chiave dell'evento corrente (da escludere nel caso di modifica)
+  hasSovrapposizione(day: Date, oraInizio: number, oraFine: number, escludiChiave?: string): boolean {
+    for (const [chiave, evento] of this.events) {
+      if (escludiChiave && chiave === escludiChiave) continue;
+      const eventoData = new Date((evento as any).data || (evento as any).Data);
+      if (eventoData.toDateString() !== day.toDateString()) continue;
+      const eInizio = this.estraiOra((evento as any).oraInizio);
+      const eFine = this.estraiOra((evento as any).oraFine);
+      // Due intervalli si sovrappongono se uno inizia prima che l'altro finisca
+      if (oraInizio < eFine && oraFine > eInizio) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Trova l'evento che copre una data/ora (anche se non è l'ora di inizio)
+  findEventAt(day: Date, hour: number): PostIt | null {
+    for (const [, evento] of this.events) {
+      const eventoData = new Date((evento as any).data || (evento as any).Data);
+      if (eventoData.toDateString() === day.toDateString()) {
+        const oraInizio = this.estraiOra((evento as any).oraInizio);
+        const oraFine = this.estraiOra((evento as any).oraFine);
+        if (hour >= oraInizio && hour < oraFine) {
+          return evento;
+        }
+      }
+    }
+    return null;
+  }
+
+  // Recupera l'evento per una cella (mostra il titolo solo all'ora di inizio)
   getEvent(day: Date, hour: number): string {
-    const evento: any = this.events.get(this.getEventKey(day, hour));
-    return evento ? evento.titoloNota : '';
+    const evento: any = this.findEventAt(day, hour);
+    if (!evento) return '';
+    const oraInizio = this.estraiOra(evento.oraInizio);
+    return hour === oraInizio ? evento.titoloNota : '';
+  }
+
+  // Posizione della cella nell'evento: 'start', 'middle', 'end', 'single' o null
+  getEventPosition(day: Date, hour: number): string | null {
+    const evento: any = this.findEventAt(day, hour);
+    if (!evento) return null;
+    const oraInizio = this.estraiOra(evento.oraInizio);
+    const oraFine = this.estraiOra(evento.oraFine);
+    if (oraFine - oraInizio === 1) return 'single';
+    if (hour === oraInizio) return 'start';
+    if (hour === oraFine - 1) return 'end';
+    return 'middle';
   }
 
 

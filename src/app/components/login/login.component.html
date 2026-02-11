@@ -9,7 +9,16 @@
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci password" required>
+        <div class="password-wrapper">
+          <input [type]="mostraPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci password" required>
+          <span class="toggle-password" (click)="mostraPassword = !mostraPassword">
+            {{ mostraPassword ? '🙈' : '👁' }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
       </div>
 
       <button type="submit" class="btn-login">Accedi</button>

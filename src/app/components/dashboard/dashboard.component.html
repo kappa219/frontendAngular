@@ -1,13 +1,28 @@
 
 <h1>Lista dipendenti</h1>
 
-<button   *ngIf="buttonAggiungi" class="addDipend" mat-raised-button color="primary" (click)="apriDialogAggiungi()">
+<button *ngIf="buttonAggiungi" class="addDipend" mat-raised-button color="primary" (click)="apriDialogAggiungi()">
   Aggiungi Dipendente
 </button>
 
+<div class="filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Cerca per nome o cognome</mat-label>
+    <input matInput [ngModel]="filtroTesto()" (ngModelChange)="filtroTesto.set($event)" placeholder="Cerca...">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
 
-<div class="tabble">     
-<table mat-table [dataSource]="dipendenti()" class="mat-elevation-z8 demo-table">
+  <mat-form-field appearance="outline">
+    <mat-label>Mansione</mat-label>
+    <mat-select [ngModel]="filtroMansione()" (ngModelChange)="filtroMansione.set($event)">
+      <mat-option value="">Tutte</mat-option>
+      <mat-option *ngFor="let m of mansioni()" [value]="m">{{ m }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="tabble">
+<table mat-table [dataSource]="dipendentiFiltrati()" class="mat-elevation-z8 demo-table">
   <ng-container matColumnDef="nome">
     <th mat-header-cell *matHeaderCellDef>Nome</th>
     <td mat-cell *matCellDef="let element">{{element.nome}}</td>

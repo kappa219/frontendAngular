@@ -103,7 +103,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: 10%;
   font-size: 14px;
   transition: background-color 0.2s;
 }
@@ -113,7 +113,7 @@
 }
 
 .month-view .days-grid div.selected {
-  background-color: #4285f4;
+  background-color: #8a9ab4;
   color: white;
 }
 
@@ -218,6 +218,46 @@
 .time-cell.today {
   background-color: #fafafa;
 }
-.work-hour{
-  background-color: #9ebdf1;
+/* ========================================
+   EVENTI - Blocco visivo continuo
+   ======================================== */
+.work-hour {
+  background-color: #4285f4;
+  border-left: 4px solid #1a56db;
+  border-right: 1px solid #eee;
+  color: white;
+}
+
+.event-start {
+  border-radius: 8px 8px 0 0;
+  padding-top: 6px;
+}
+
+.event-middle {
+  border-radius: 0;
+}
+
+.event-end {
+  border-radius: 0 0 8px 8px;
+}
+
+.event-single {
+  border-radius: 8px;
+  padding-top: 6px;
+}
+
+.event-title {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 8px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.work-hour:hover {
+  background-color: #3367c7;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+  transform: translate(-2px, -2px);
 }

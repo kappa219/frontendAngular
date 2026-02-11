@@ -34,7 +34,7 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
   private dipendentiService = inject(DipendentiService);
 
   tipologieLavoro = signal<TipologiaLavoro[]>([]);
-
+  errorMessage = '';
 
   dipendente = {
     nome: '',
@@ -51,7 +51,24 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
     });
   }
 
+  isFormValido(): boolean {
+    return !!(
+      this.dipendente.nome.trim() &&
+      this.dipendente.cognome.trim() &&
+      this.dipendente.eta > 0 &&
+      this.dipendente.dataAssunzione &&
+      this.dipendente.tipologiaLavoroId
+    );
+  }
+
   salva() {
+    this.errorMessage = '';
+
+    if (!this.isFormValido()) {
+      this.errorMessage = 'Compila tutti i campi obbligatori.';
+      return;
+    }
+
     const payload = {
       ...this.dipendente,
       dataAssunzione: this.dipendente.dataAssunzione
@@ -65,10 +82,9 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
       error: (err) => {
         console.error('Errore nel salvataggio:', err);
         if (err.status === 401) {
-          alert('Errore: ' + "non hai i permessi per eseguire questa operazione.");
-          this.dialogRef.close();
+          this.errorMessage = 'Non hai i permessi per eseguire questa operazione.';
         } else {
-          alert('Si è verificato un errore durante il salvataggio del dipendente.');
+          this.errorMessage = 'Si è verificato un errore durante il salvataggio.';
         }
       }
     });

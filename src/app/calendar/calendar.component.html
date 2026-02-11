@@ -46,8 +46,12 @@
              class="time-cell"
              [class.today]="isToday(day)"
              [class.work-hour]="isWorkHour(day,hour)"
+             [class.event-start]="getEventPosition(day,hour) === 'start'"
+             [class.event-middle]="getEventPosition(day,hour) === 'middle'"
+             [class.event-end]="getEventPosition(day,hour) === 'end'"
+             [class.event-single]="getEventPosition(day,hour) === 'single'"
              (click)="onCellClick(day,hour)">
-          {{ getEvent(day, hour) }}
+          <span *ngIf="getEvent(day, hour)" class="event-title">{{ getEvent(day, hour) }}</span>
         </div>
       </div>
     </div>

@@ -74,3 +74,31 @@
 .btn-login:active {
   transform: translateY(0);
 }
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 45px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+}
+
+.error-message {
+  background-color: #fdecea;
+  color: #b71c1c;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border-left: 4px solid #d32f2f;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
