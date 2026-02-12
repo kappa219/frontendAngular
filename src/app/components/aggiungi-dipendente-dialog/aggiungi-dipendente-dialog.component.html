@@ -12,11 +12,25 @@
         <mat-icon matPrefix>badge</mat-icon>
       </mat-form-field>
 
+
+
+
       <mat-form-field appearance="outline">
         <mat-label>Cognome</mat-label>
         <input matInput [(ngModel)]="dipendente.cognome" required>
         <mat-icon matPrefix>badge</mat-icon>
       </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Codice Fiscale</mat-label>
+        <input matInput [(ngModel)]="dipendente.codiceFiscale" (input)="dipendente.codiceFiscale = dipendente.codiceFiscale.toUpperCase()" required style="text-transform: uppercase">
+        <mat-icon matPrefix>badge</mat-icon>
+      </mat-form-field>
+
+
+
     </div>
 
     <div class="form-row">

@@ -16,6 +16,7 @@ export interface Dipendente {
   eta: number;
   stipendio?: number;
   tipologiaLavoro?: TipologiaLavoro;
+  codiceFiscale?: string;
 }
 
 @Injectable({

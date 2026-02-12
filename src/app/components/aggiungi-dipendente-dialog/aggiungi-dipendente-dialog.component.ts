@@ -44,7 +44,8 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
     eta: 0,
     stipendio: 0,
     dataAssunzione: null as Date | null,
-    tipologiaLavoroId: ''
+    tipologiaLavoroId: '',
+    codiceFiscale: ''
   };
 
   ngOnInit() {
@@ -60,7 +61,8 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
         eta: this.data.eta,
         stipendio: this.data.stipendio ?? 0,
         dataAssunzione: this.data.dataAssunzione ? new Date(this.data.dataAssunzione) : null,
-        tipologiaLavoroId: this.data.tipologiaLavoro?.id ?? ''
+        tipologiaLavoroId: this.data.tipologiaLavoro?.id ?? '',
+        codiceFiscale: this.data.codiceFiscale?.toUpperCase() ?? ''
       };
     }
   }

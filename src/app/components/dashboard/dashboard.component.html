@@ -1,6 +1,56 @@
 
 <h1>Lista dipendenti</h1>
 
+<div class="stats-cards">
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #e3f2fd;">
+        <mat-icon style="color: #1565c0;">people</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totaleDipendenti() }}</span>
+        <span class="stat-label">Dipendenti</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #e8f5e9;">
+        <mat-icon style="color: #2e7d32;">euro</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stipendioMedio() | number:'1.0-0' }}</span>
+        <span class="stat-label">Stipendio medio</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #fff3e0;">
+        <mat-icon style="color: #e65100;">cake</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ etaMedia() }}</span>
+        <span class="stat-label">Età media</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #f3e5f5;">
+        <mat-icon style="color: #7b1fa2;">work</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totaleMansioni() }}</span>
+        <span class="stat-label">Mansioni</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
 <button *ngIf="buttonAggiungi" class="addDipend" mat-raised-button color="primary" (click)="apriDialogAggiungi()">
   Aggiungi Dipendente
 </button>
@@ -22,7 +72,7 @@
 </div>
 
 <div class="tabble">
-<table mat-table [dataSource]="dipendentiFiltrati()" class="mat-elevation-z8 demo-table">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
   <ng-container matColumnDef="nome">
     <th mat-header-cell *matHeaderCellDef>Nome</th>
     <td mat-cell *matCellDef="let element">{{element.nome}}</td>

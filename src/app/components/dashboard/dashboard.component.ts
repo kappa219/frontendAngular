@@ -1,11 +1,12 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { DipendentiService, Dipendente } from '../../dipendenti.service';
@@ -16,7 +17,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatTooltipModule, FormsModule, RouterModule, CommonModule],
+  imports: [MatTableModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatTooltipModule, MatCardModule, FormsModule, RouterModule, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -32,6 +33,25 @@ export class DashboardComponent implements OnInit {
   private dipendentiService = inject(DipendentiService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+
+  // Statistiche per le card
+  totaleDipendenti = computed(() => this.dipendenti().length);
+
+  stipendioMedio = computed(() => {
+    const dips = this.dipendenti().filter(d => d.stipendio != null);
+    if (dips.length === 0) return 0;
+    const somma = dips.reduce((acc, d) => acc + d.stipendio!, 0);
+    return Math.round(somma / dips.length);
+  });
+
+  etaMedia = computed(() => {
+    const dips = this.dipendenti();
+    if (dips.length === 0) return 0;
+    const somma = dips.reduce((acc, d) => acc + d.eta, 0);
+    return Math.round(somma / dips.length);
+  });
+
+  totaleMansioni = computed(() => this.mansioni().length);
 
   // Lista mansioni uniche per il select
   mansioni = computed(() => {
@@ -56,6 +76,14 @@ export class DashboardComponent implements OnInit {
     });
   });
 
+  dataSource = new MatTableDataSource<Dipendente>([]);
+
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.dipendentiFiltrati();
+    });
+  }
+
   ngOnInit() {
     this.buttonAggiungi=this.theAuthService.hasRole('Admin');
     console.log("Permesso di aggiungere dipendenti:", this.buttonAggiungi);
@@ -74,7 +102,9 @@ export class DashboardComponent implements OnInit {
       return;
     }
     this.dipendentiService.eliminaDipendente(dipendente.id!).subscribe(() => {
-      this.dipendenti.set(this.dipendenti().filter(d => d.id !== dipendente.id));
+      this.dipendentiService.getDipendenti().subscribe(data => {
+        this.dipendenti.set(data);
+      });
     });
   }
 
