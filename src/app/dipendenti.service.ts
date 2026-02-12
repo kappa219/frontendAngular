@@ -40,4 +40,12 @@ export class DipendentiService {
   getDipendente(id: string) {
     return this.http.get<Dipendente>(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`);
   }
+
+  modificaDipendente(id: string, dipendente: any) {
+    return this.http.put<Dipendente>(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`, dipendente);
+  }
+
+  eliminaDipendente(id: string) {
+    return this.http.delete(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`);
+  }
 }

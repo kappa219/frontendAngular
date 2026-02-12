@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { DipendentiService, Dipendente } from '../../dipendenti.service';
@@ -15,7 +16,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, FormsModule, RouterModule, CommonModule],
+  imports: [MatTableModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatTooltipModule, FormsModule, RouterModule, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -23,7 +24,7 @@ export class DashboardComponent implements OnInit {
    theAuthService = inject(AuthService);
   buttonAggiungi: boolean = false;
 
-  displayedColumns: string[] = ['nome', 'cognome', 'dataAssunzione', 'dataDimissione', 'eta', 'stipendio', 'mansione'];
+  displayedColumns: string[] = ['nome', 'cognome', 'dataAssunzione', 'dataDimissione', 'eta', 'stipendio', 'mansione', 'azioni'];
 
   dipendenti = signal<Dipendente[]>([]);
   filtroTesto = signal('');
@@ -67,6 +68,16 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/dipendente', dipendente.id]);
   }
 
+  eliminaDipendente(dipendente: Dipendente, event: Event) {
+    event.stopPropagation(); // evita di navigare al dettaglio
+    if (!confirm(`Sei sicuro di voler eliminare ${dipendente.nome} ${dipendente.cognome}?`)) {
+      return;
+    }
+    this.dipendentiService.eliminaDipendente(dipendente.id!).subscribe(() => {
+      this.dipendenti.set(this.dipendenti().filter(d => d.id !== dipendente.id));
+    });
+  }
+
   apriDialogAggiungi() {
     const dialogRef = this.dialog.open(AggiungiDipendenteDialogComponent, {
       width: '600px'
@@ -74,10 +85,24 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Ricarica i dipendenti dopo l'aggiunta
         this.dipendentiService.getDipendenti().subscribe(data => {
           this.dipendenti.set(data);
-          console.log('Dipendente aggiunto con successo. Lista aggiornata.');
+        });
+      }
+    });
+  }
+
+  apriDialogModifica(dipendente: Dipendente, event: Event) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(AggiungiDipendenteDialogComponent, {
+      width: '600px',
+      data: dipendente
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dipendentiService.getDipendenti().subscribe(data => {
+          this.dipendenti.set(data);
         });
       }
     });

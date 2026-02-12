@@ -1,11 +1,38 @@
+:host {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+h1 {
+  margin: 20px 0;
+}
+
+.addDipend {
+  margin: 0 0 20px 0;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin: 0 0 10px 0;
+  flex-wrap: wrap;
+}
+
+.filters mat-form-field {
+  min-width: 220px;
+}
+
+.tabble {
+  overflow-x: auto;
+}
+
 .demo-table {
+  width: 100%;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px 40px 20px 40px;
-}
-.tabble {
-  overflow-x: auto;
 }
 
 .mat-mdc-header-row {
@@ -16,16 +43,13 @@
   color: white;
   font-weight: 600;
   font-size: 14px;
+  padding: 10px 16px !important;
 }
 
 .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid #e0e0e0;
-  padding: 8px 10px;
+  padding: 10px 16px;
   font-size: 13px;
-}
-
-.mat-mdc-header-cell {
-  padding: 8px 10px !important;
 }
 
 .mat-mdc-row:hover {
@@ -39,48 +63,36 @@
 .mat-mdc-row:nth-child(even):hover {
   background-color: #f0f0f0;
 }
-.mat-column-dataAssunzione,
-.mat-column-dataDimissione {
-  max-width: 10px;
-   white-space: nowrap; 
-}
-
-.mat-column-eta {
-  max-width: 5px;
-}
-
-.mat-column-stipendio {
-  max-width: 10px;
-}
 
 .mat-column-nome,
 .mat-column-cognome {
-  max-width: 10px;
+  min-width: 100px;
+}
+
+.mat-column-dataAssunzione,
+.mat-column-dataDimissione {
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.mat-column-eta {
+  min-width: 60px;
+  text-align: center;
+}
+
+.mat-column-stipendio {
+  min-width: 90px;
 }
 
 .mat-column-mansione {
-  max-width: 10px;
+  min-width: 120px;
 }
 
-h1 {
-  margin: 20px 40px;
-}
-
-.addDipend {
-  margin: 20px 40px;
+.mat-column-azioni {
+  min-width: 100px;
+  white-space: nowrap;
 }
 
 .clickable-row {
   cursor: pointer;
-}
-
-.filters {
-  display: flex;
-  gap: 16px;
-  margin: 0 40px 10px 40px;
-  flex-wrap: wrap;
-}
-
-.filters mat-form-field {
-  min-width: 220px;
 }

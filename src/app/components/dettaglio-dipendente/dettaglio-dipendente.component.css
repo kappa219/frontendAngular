@@ -168,3 +168,8 @@
     grid-template-columns: 1fr;
   }
 }
+
+.spacer {
+  flex: 1;
+  margin-left: 10px;
+}

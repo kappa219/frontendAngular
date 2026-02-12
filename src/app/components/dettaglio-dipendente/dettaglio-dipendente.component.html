@@ -2,10 +2,11 @@
   <button mat-raised-button color="primary" (click)="tornaIndietro()">
     Torna alla lista
   </button>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" (click)="downloadexel()">
+    Scarica exel
+  </button>
 
-  @if (loading()) {
-    <p class="loading">Caricamento...</p>
-  }
 
   @if (error()) {
     <p class="error">{{ error() }}</p>

@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { DipendentiService, TipologiaLavoro } from '../../dipendenti.service';
+import { DipendentiService, Dipendente, TipologiaLavoro } from '../../dipendenti.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,9 +32,11 @@ import { MatIconModule } from '@angular/material/icon';
 export class AggiungiDipendenteDialogComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<AggiungiDipendenteDialogComponent>);
   private dipendentiService = inject(DipendentiService);
+  private data: Dipendente | null = inject(MAT_DIALOG_DATA, { optional: true });
 
   tipologieLavoro = signal<TipologiaLavoro[]>([]);
   errorMessage = '';
+  isModifica = false;
 
   dipendente = {
     nome: '',
@@ -49,6 +51,18 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
     this.dipendentiService.getTipologieLavoro().subscribe(data => {
       this.tipologieLavoro.set(data);
     });
+
+    if (this.data) {
+      this.isModifica = true;
+      this.dipendente = {
+        nome: this.data.nome,
+        cognome: this.data.cognome,
+        eta: this.data.eta,
+        stipendio: this.data.stipendio ?? 0,
+        dataAssunzione: this.data.dataAssunzione ? new Date(this.data.dataAssunzione) : null,
+        tipologiaLavoroId: this.data.tipologiaLavoro?.id ?? ''
+      };
+    }
   }
 
   isFormValido(): boolean {
@@ -75,7 +89,12 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
         ? this.dipendente.dataAssunzione.toISOString()
         : undefined
     };
-    this.dipendentiService.salvaDipendente(payload).subscribe({
+
+    const request$ = this.isModifica
+      ? this.dipendentiService.modificaDipendente(this.data!.id!, payload)
+      : this.dipendentiService.salvaDipendente(payload);
+
+    request$.subscribe({
       next: () => {
         this.dialogRef.close(true);
       },
