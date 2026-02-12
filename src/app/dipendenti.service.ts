@@ -46,6 +46,6 @@ export class DipendentiService {
   }
 
   eliminaDipendente(id: string) {
-    return this.http.delete(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`);
+    return this.http.delete(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`, { responseType: 'text' });
   }
 }

@@ -73,8 +73,16 @@ export class DashboardComponent implements OnInit {
     if (!confirm(`Sei sicuro di voler eliminare ${dipendente.nome} ${dipendente.cognome}?`)) {
       return;
     }
-    this.dipendentiService.eliminaDipendente(dipendente.id!).subscribe(() => {
-      this.dipendenti.set(this.dipendenti().filter(d => d.id !== dipendente.id));
+    this.dipendentiService.eliminaDipendente(dipendente.id!).subscribe({
+      next: () => {
+        this.dipendentiService.getDipendenti().subscribe(data => {
+          this.dipendenti.set(data);
+        });
+      },
+      error: (err) => {
+        console.error('Errore eliminazione dipendente:', err);
+        alert('Errore durante l\'eliminazione del dipendente.');
+      }
     });
   }
 
