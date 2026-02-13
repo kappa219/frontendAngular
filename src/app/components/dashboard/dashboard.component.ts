@@ -110,7 +110,9 @@ export class DashboardComponent implements OnInit {
 
   apriDialogAggiungi() {
     const dialogRef = this.dialog.open(AggiungiDipendenteDialogComponent, {
-      width: '600px'
+      width: '600px',
+      disableClose: true,
+      
     });
 
     dialogRef.afterClosed().subscribe(result => {

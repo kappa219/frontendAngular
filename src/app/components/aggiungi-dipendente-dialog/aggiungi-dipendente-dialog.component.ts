@@ -51,6 +51,15 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
   ngOnInit() {
     this.dipendentiService.getTipologieLavoro().subscribe(data => {
       this.tipologieLavoro.set(data);
+
+      // Se siamo in modifica e il backend non restituisce l'id della tipologia,
+      // lo cerchiamo per descrizione
+      if (this.isModifica && !this.dipendente.tipologiaLavoroId && this.data?.tipologiaLavoro?.descrizione) {
+        const match = data.find(t => t.descrizione === this.data!.tipologiaLavoro!.descrizione);
+        if (match) {
+          this.dipendente.tipologiaLavoroId = match.id;
+        }
+      }
     });
 
     if (this.data) {
@@ -91,6 +100,8 @@ export class AggiungiDipendenteDialogComponent implements OnInit {
         ? this.dipendente.dataAssunzione.toISOString()
         : undefined
     };
+
+    console.log('Payload inviato:', JSON.stringify(payload));
 
     const request$ = this.isModifica
       ? this.dipendentiService.modificaDipendente(this.data!.id!, payload)

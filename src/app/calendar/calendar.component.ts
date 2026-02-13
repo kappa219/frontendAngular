@@ -191,7 +191,8 @@ export class MyCalendarComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PostItDialogComponent, {
       width: '400px',
-      data: esistente || { data: day, oraInizio: this.formatHour(hour), oraFine: this.formatHour(hour + 1) }
+      data: esistente || { data: day, oraInizio: this.formatHour(hour), oraFine: this.formatHour(hour + 1) },
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
