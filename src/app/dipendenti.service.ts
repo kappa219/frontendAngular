@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 export interface TipologiaLavoro {
   id: string;
@@ -24,29 +25,32 @@ export interface Dipendente {
 })
 export class DipendentiService {
 
+  private apiUrl = `${environment.apiUrl}/AnagrafiaDipendenti`;
+  private tipologieUrl = `${environment.apiUrl}/TipologiaLavoro`;
+
   constructor(private http: HttpClient) { }
 
   getDipendenti() {
-    return this.http.get<Dipendente[]>('http://localhost:5188/api/AnagrafiaDipendenti');
+    return this.http.get<Dipendente[]>(this.apiUrl);
   }
 
   salvaDipendente(dipendente: Dipendente) {
-    return this.http.post<Dipendente>('http://localhost:5188/api/AnagrafiaDipendenti', dipendente);
+    return this.http.post<Dipendente>(this.apiUrl, dipendente);
   }
 
   getTipologieLavoro() {
-    return this.http.get<TipologiaLavoro[]>('http://localhost:5188/api/TipologiaLavoro');
+    return this.http.get<TipologiaLavoro[]>(this.tipologieUrl);
   }
 
   getDipendente(id: string) {
-    return this.http.get<Dipendente>(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`);
+    return this.http.get<Dipendente>(`${this.apiUrl}/${id}`);
   }
 
   modificaDipendente(id: string, dipendente: any) {
-    return this.http.put<Dipendente>(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`, dipendente);
+    return this.http.put<Dipendente>(`${this.apiUrl}/${id}`, dipendente);
   }
 
   eliminaDipendente(id: string) {
-    return this.http.delete(`http://localhost:5188/api/AnagrafiaDipendenti/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
   }
 }

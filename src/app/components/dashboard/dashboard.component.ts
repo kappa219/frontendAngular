@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, effect, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,14 +15,17 @@ import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AggiungiDipendenteDialogComponent } from '../aggiungi-dipendente-dialog/aggiungi-dipendente-dialog.component';
 import { AuthService } from '../../services/auth.service';
+import { PostItService } from '../../services/post-it.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatTooltipModule, MatCardModule, FormsModule, RouterModule, CommonModule],
+  imports: [MatTableModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatTooltipModule, MatCardModule, MatPaginatorModule, FormsModule, RouterModule, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
+
+export class DashboardComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
    theAuthService = inject(AuthService);
   buttonAggiungi: boolean = false;
 
@@ -31,8 +35,12 @@ export class DashboardComponent implements OnInit {
   filtroTesto = signal('');
   filtroMansione = signal('');
   private dipendentiService = inject(DipendentiService);
+  private postItService = inject(PostItService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+
+  // Mappa dipendenteId -> numero di giornate lavorative (note nel calendario)
+  giorniLavoratiMap = new Map<string, number>();
 
   // Statistiche per le card
   totaleDipendenti = computed(() => this.dipendenti().length);
@@ -80,8 +88,23 @@ export class DashboardComponent implements OnInit {
 
   constructor() {
     effect(() => {
+      //this.dataSource.
       this.dataSource.data = this.dipendentiFiltrati();
     });
+  }
+
+  ngAfterViewInit() { 
+    // Associa il paginator al dataSource dopo che la vista è stata inizializzata
+    this.dataSource.paginator = this.paginator;
+
+
+    this.paginator._intl.itemsPerPageLabel = 'Dipendenti per pagina:';
+    // questi label senvono per le persone non vedenti che usano screen reader, non appaiono visivamente appaiono anche su alt quando ci passi ul nome 
+    this.paginator._intl.nextPageLabel = 'Pagina successiva';
+    this.paginator._intl.previousPageLabel = 'Pagina precedente';
+    this.paginator._intl.firstPageLabel = 'Prima pagina';
+    this.paginator._intl.lastPageLabel = 'Ultima pagina';
+
   }
 
   ngOnInit() {
@@ -89,6 +112,18 @@ export class DashboardComponent implements OnInit {
     console.log("Permesso di aggiungere dipendenti:", this.buttonAggiungi);
     this.dipendentiService.getDipendenti().subscribe(data => {
       this.dipendenti.set(data);
+      this.caricaGiorniLavorati(data);
+    });
+  }
+
+  private caricaGiorniLavorati(dipendenti: Dipendente[]) {
+    this.giorniLavoratiMap.clear();
+    dipendenti.forEach(d => {
+      if (d.id) {
+        this.postItService.getPostItById(d.id).subscribe(postIts => {
+          this.giorniLavoratiMap.set(d.id!, postIts.length);
+        });
+      }
     });
   }
 
@@ -122,6 +157,10 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+  }
+
+  getGiorniLavorati(dipendente: Dipendente): number {
+    return this.giorniLavoratiMap.get(dipendente.id!) ?? 0;
   }
 
   apriDialogModifica(dipendente: Dipendente, event: Event) {

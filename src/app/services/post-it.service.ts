@@ -15,8 +15,13 @@ export class PostItService {
   //   return this.http.get<PostIt[]>(this.apiUrl);
   // }
 
+  //per il file di EXEL ,prendo tutti i post-it di un dipendente, senza filtrarli per settimana, cosi' da avere tutte le informazioni in un unico file
   getPostItById(id: string): Observable<PostIt[]> {
     return this.http.get<PostIt[]>(`${this.apiUrl}/${id}`);
+  }
+
+  getPostItBySettimana(id: string, dataInizio: string, dataFine: string): Observable<PostIt[]> {
+    return this.http.get<PostIt[]>(`${this.apiUrl}/${id}?dataInizio=${dataInizio}&dataFine=${dataFine}`);
   }
 
    salvaPostIt(postIt: PostIt): Observable<string> {

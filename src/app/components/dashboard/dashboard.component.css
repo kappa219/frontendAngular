@@ -81,6 +81,11 @@ h1 {
   overflow-x: auto;
 }
 
+.table-scroll {
+  min-height: 530px;
+  overflow-y: auto;
+}
+
 .demo-table {
   width: 100%;
   border-radius: 8px;
@@ -88,33 +93,33 @@ h1 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.mat-mdc-header-row {
-  background-color: #3f51b5;
+::ng-deep .demo-table .mat-mdc-header-row {
+  background-color: #3f51b5 !important;
 }
 
-.mat-mdc-header-cell {
-  color: white;
+::ng-deep .demo-table .mat-mdc-header-cell {
+  color: white !important;
   font-weight: 600;
   font-size: 14px;
   padding: 10px 16px !important;
 }
 
-.mat-mdc-row .mat-mdc-cell {
+::ng-deep .demo-table .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid #e0e0e0;
   padding: 10px 16px;
   font-size: 13px;
 }
 
-.mat-mdc-row:hover {
-  background-color: #f5f5f5;
+::ng-deep .demo-table .mat-mdc-row:hover {
+  background-color: #f5f5f5 !important;
 }
 
-.mat-mdc-row:nth-child(even) {
+::ng-deep .demo-table .mat-mdc-row:nth-child(even) {
   background-color: #fafafa;
 }
 
-.mat-mdc-row:nth-child(even):hover {
-  background-color: #f0f0f0;
+::ng-deep .demo-table .mat-mdc-row:nth-child(even):hover {
+  background-color: #f0f0f0 !important;
 }
 
 .mat-column-nome,
@@ -148,4 +153,67 @@ h1 {
 
 .clickable-row {
   cursor: pointer;
+}
+
+.azioni-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.giorni-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.pallino-verde {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4caf50 !important;
+  display: inline-block;
+}
+
+.pallino-rosso {
+  background-color: #f44336;
+}
+
+.giorni-zero {
+  color: #c62828;
+  background-color: #ffebee;
+}
+::ng-deep .custom-paginator.mat-mdc-paginator {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+}
+
+::ng-deep .custom-paginator .mat-mdc-paginator-range-label {
+  color: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-icon-button {
+  color: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-icon-button .mat-mdc-paginator-icon {
+  fill: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-select-value,
+::ng-deep .custom-paginator .mat-mdc-select-arrow {
+  color: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-form-field-underline {
+  background-color: rgba(255, 255, 255, 0.5) !important;
 }

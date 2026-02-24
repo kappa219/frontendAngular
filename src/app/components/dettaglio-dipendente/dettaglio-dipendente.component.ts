@@ -53,9 +53,9 @@ downloadexel() {
     if (!id) return;
 
     const dip = this.dipendente();
-    console.log('Dipendente per Excel:', dip?.tipologiaLavoro?.descrizione);
-    console.log('TipologiaLavoro completa:', dip?.tipologiaLavoro);
-    console.log('Dipendente completo:', dip);
+    //console.log('Dipendente per Excel:', dip?.tipologiaLavoro?.descrizione);
+  //  console.log('TipologiaLavoro completa:', dip?.tipologiaLavoro);
+    //console.log('Dipendente completo:', dip);
     const nomeDipendente = dip ? `${dip.nome}_${dip.cognome}` : 'dipendente';
 
     this.postItService.getPostItById(id).subscribe({
@@ -101,7 +101,7 @@ downloadexel() {
 
 
         const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(righe);
-        // Imposta larghezza colonne
+        // oer impostare larghezza colonne faccio cosi' 
         ws['!cols'] = [
           { wch: 15 }, // Nome
           { wch: 15 }, // Cognome

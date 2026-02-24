@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PostItDialogComponent, PostIt } from './../components/post-it-dialog/post-it-dialog.component';
 import { PostItService } from '../services/post-it.service';
@@ -10,7 +11,7 @@ import { PostItService } from '../services/post-it.service';
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -52,9 +53,26 @@ export class MyCalendarComponent implements OnInit {
     this.caricaPostIt();
   }
 
+  private formatDate(date: Date): string {
+    const anno = date.getFullYear();
+    const mese = String(date.getMonth() + 1).padStart(2, '0');
+    const giorno = String(date.getDate()).padStart(2, '0');
+    return `${anno}-${mese}-${giorno}`;
+  }
+
   caricaPostIt(): void {
     if (!this.dipendenteId) return;
-    this.postItService.getPostItById(this.dipendenteId).subscribe({
+
+    const startOfWeek = this.getStartOfWeek(this.currentDate);
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    const dataInizio = this.formatDate(startOfWeek);
+    const dataFine = this.formatDate(endOfWeek);
+
+    this.events.clear();
+
+    this.postItService.getPostItBySettimana(this.dipendenteId, dataInizio, dataFine).subscribe({
       next: (postIts) => {
         console.log('Dati ricevuti dal backend:', postIts);
         postIts.forEach((postIt: any) => {
@@ -102,6 +120,8 @@ export class MyCalendarComponent implements OnInit {
     const firstDay = new Date(year, month, 1).getDay();
     const startDay = firstDay === 0 ? 6 : firstDay - 1;
     const totalDays = new Date(year, month + 1, 0).getDate();
+   console.log(`Mese: ${this.currentMonth} ${this.currentYear}, Primo giorno: ${firstDay}, Giorni totali: ${totalDays}`);
+    
 
     this.daysInMonth = [];
 
@@ -140,6 +160,7 @@ export class MyCalendarComponent implements OnInit {
       this.currentDate.setDate(this.currentDate.getDate() - 7);
     }
     this.updateCalendar();
+    this.caricaPostIt();
   }
 
   nextMonth(): void {
@@ -149,6 +170,7 @@ export class MyCalendarComponent implements OnInit {
       this.currentDate.setDate(this.currentDate.getDate() + 7);
     }
     this.updateCalendar();
+    this.caricaPostIt();
   }
 
   selectDay(day: number | null): void {

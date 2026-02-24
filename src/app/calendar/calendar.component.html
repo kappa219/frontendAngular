@@ -1,10 +1,14 @@
 <div class="calendar">
   <!-- Header -->
   <div class="header">
-    <button (click)="prevMonth()">←</button>
-    <span *ngIf="view === 'month'">{{ currentMonth }} {{ currentYear }}</span>
-    <span *ngIf="view === 'week'">{{ getWeekRange() }}</span>
-    <button (click)="nextMonth()">→</button>
+    <button (click)="prevMonth()"><mat-icon>chevron_left</mat-icon></button>
+    @if (view === 'month') {
+      <span>{{ currentMonth }} {{ currentYear }}</span>
+    }
+    @if (view === 'week') {
+      <span>{{ getWeekRange() }}</span>
+    }
+    <button (click)="nextMonth()"><mat-icon>chevron_right</mat-icon></button>
   </div>
 
   <!-- Toggle vista -->
@@ -14,46 +18,56 @@
   </div>
 
   <!-- Vista Mensile -->
-  <div *ngIf="view === 'month'" class="month-view">
-    <div class="days-header">
-      <span *ngFor="let day of ['Lun','Mar','Mer','Gio','Ven','Sab','Dom']">{{day}}</span>
-    </div>
-    <div class="days-grid">
-      <div *ngFor="let day of daysInMonth"
-           (click)="selectDay(day)"
-           [class.selected]="day === selectedDay">
-        {{ day }}
+  @if (view === 'month') {
+    <div class="month-view">
+      <div class="days-header">
+        @for (day of ['Lun','Mar','Mer','Gio','Ven','Sab','Dom']; track day) {
+          <span>{{day}}</span>
+        }
+      </div>
+      <div class="days-grid">
+        @for (day of daysInMonth; track day) {
+          <div (click)="selectDay(day)" [class.selected]="day === selectedDay">
+            {{ day }}
+          </div>
+        }
       </div>
     </div>
-  </div>
+  }
 
   <!-- Vista Settimanale -->
-  <div *ngIf="view === 'week'" class="week-view">
-    <div class="week-header">
-      <div class="time-column-header"></div>
-      <div *ngFor="let day of weekDays"
-           class="day-column-header"
-           [class.today]="isToday(day)">
-        <span class="day-name">{{ getDayName(day) }}</span>
-        <span class="day-number">{{ day.getDate() }}</span>
+  @if (view === 'week') {
+    <div class="week-view">
+      <div class="week-header">
+        <div class="time-column-header"></div>
+        @for (day of weekDays; track day) {
+          <div class="day-column-header" [class.today]="isToday(day)">
+            <span class="day-name">{{ getDayName(day) }}</span>
+            <span class="day-number">{{ day.getDate() }}</span>
+          </div>
+        }
+      </div>
+      <div class="week-body">
+        @for (hour of hours; track hour) {
+          <div class="time-row">
+            <div class="time-label">{{ formatHour(hour) }}</div>
+            @for (day of weekDays; track day) {
+              <div class="time-cell"
+                   [class.today]="isToday(day)"
+                   [class.work-hour]="isWorkHour(day,hour)"
+                   [class.event-start]="getEventPosition(day,hour) === 'start'"
+                   [class.event-middle]="getEventPosition(day,hour) === 'middle'"
+                   [class.event-end]="getEventPosition(day,hour) === 'end'"
+                   [class.event-single]="getEventPosition(day,hour) === 'single'"
+                   (click)="onCellClick(day,hour)">
+                @if (getEvent(day, hour)) {
+                  <span class="event-title">{{ getEvent(day, hour) }}</span>
+                }
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>
-    <div class="week-body">
-      <div *ngFor="let hour of hours" class="time-row">
-        <div class="time-label">{{ formatHour(hour) }}</div>
-
-        <div *ngFor="let day of weekDays"
-             class="time-cell"
-             [class.today]="isToday(day)"
-             [class.work-hour]="isWorkHour(day,hour)"
-             [class.event-start]="getEventPosition(day,hour) === 'start'"
-             [class.event-middle]="getEventPosition(day,hour) === 'middle'"
-             [class.event-end]="getEventPosition(day,hour) === 'end'"
-             [class.event-single]="getEventPosition(day,hour) === 'single'"
-             (click)="onCellClick(day,hour)">
-          <span *ngIf="getEvent(day, hour)" class="event-title">{{ getEvent(day, hour) }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  }
 </div>
