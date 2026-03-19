@@ -1,0 +1,104 @@
+<div class="calendar">
+  <!-- Header -->
+  <div class="header">
+    <button (click)="prevMonth()"><mat-icon>chevron_left</mat-icon></button>
+    @if (view === 'month') {
+      <span>{{ currentMonth }} {{ currentYear }}</span>
+    }
+    @if (view === 'week') {
+      <span>{{ getWeekRange() }}</span>
+    }
+    <button (click)="nextMonth()"><mat-icon>chevron_right</mat-icon></button>
+  </div>
+
+  <!-- Toggle vista -->
+  <div class="view-toggle">
+    <button [class.active]="view === 'week'" (click)="setView('week')">Settimana</button>
+    <button [class.active]="view === 'month'" (click)="setView('month')">Mese</button>
+  </div>
+
+  <!-- Vista Mensile -->
+  @if (view === 'month') {
+    <div class="month-view">
+      <div class="days-header">
+        @for (day of ['Lun','Mar','Mer','Gio','Ven','Sab','Dom']; track day) {
+          <span>{{day}}</span>
+        }
+      </div>
+      <div class="days-grid">
+        @for (day of daysInMonth; track day) {
+          <div (click)="selectDay(day, getEventsForDay(day))" [class.selected]="day === selectedDay" [class.today]="isCurrentDay(day)">
+            @if (day && getEventsForDay(day).length > 0) {
+              <span class="event-badge">{{ getEventsForDay(day).length }}</span>
+            }
+            <span class="day-number">{{ day }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Dettaglio giorno selezionato (vista mese) -->
+  @if (view === 'month' && selectedDay) {
+    <div class="day-detail">
+      <h3>{{ selectedDay }} {{ currentMonth }} {{ currentYear }}</h3>
+      @if (selectedDayEvents.length === 0) {
+        <p class="no-events">Nessun evento per questo giorno.</p>
+      } @else {
+        <ul class="events-list">
+          @for (evento of selectedDayEvents; track evento) {
+            <li (click)="openEventoGiorno(evento)">
+              <span class="event-time">{{ evento.oraInizio }} – {{ evento.oraFine }}</span>
+              <div class="event-info">
+                <span class="event-name">{{ evento.titoloNota }}</span>
+                @if (evento.mansione) {
+                  <span class="event-mansione">{{ evento.mansione }}</span>
+                }
+                @if (evento.note) {
+                  <span class="event-note">{{ evento.note }}</span>
+                }
+              </div>
+              <span class="event-company">{{ evento.azienda }}</span>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  }
+
+  <!-- Vista Settimanale -->
+  @if (view === 'week') {
+    <div class="week-view">
+      <div class="week-header">
+        <div class="time-column-header"></div>
+        @for (day of weekDays; track day) {
+          <div class="day-column-header" [class.today]="isToday(day)">
+            <span class="day-name">{{ getDayName(day) }}</span>
+            <span class="day-number">{{ day.getDate() }}</span>
+          </div>
+        }
+      </div>
+      <div class="week-body">
+        @for (hour of hours; track hour) {
+          <div class="time-row">
+            <div class="time-label">{{ formatHour(hour) }}</div>
+            @for (day of weekDays; track day) {
+              <div class="time-cell"
+                   [class.today]="isToday(day)"
+                   [class.work-hour]="isWorkHour(day,hour)"
+                   [class.event-start]="getEventPosition(day,hour) === 'start'"
+                   [class.event-middle]="getEventPosition(day,hour) === 'middle'"
+                   [class.event-end]="getEventPosition(day,hour) === 'end'"
+                   [class.event-single]="getEventPosition(day,hour) === 'single'"
+                   (click)="onCellClick(day,hour)">
+                @if (getEvent(day, hour)) {
+                  <span class="event-title">{{ getEvent(day, hour) }}</span>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

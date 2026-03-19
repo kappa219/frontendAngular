@@ -1,0 +1,140 @@
+
+<h1>Lista dipendenti</h1>
+
+<div class="stats-cards">
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #e3f2fd;">
+        <mat-icon style="color: #1565c0;">people</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totaleDipendenti() }}</span>
+        <span class="stat-label">Dipendenti</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #e8f5e9;">
+        <mat-icon style="color: #2e7d32;">euro</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stipendioMedio() | number:'1.0-0' }}</span>
+        <span class="stat-label">Stipendio medio</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #fff3e0;">
+        <mat-icon style="color: #e65100;">cake</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ etaMedia() }}</span>
+        <span class="stat-label">Età media</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <div class="stat-icon" style="background-color: #f3e5f5;">
+        <mat-icon style="color: #7b1fa2;">work</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totaleMansioni() }}</span>
+        <span class="stat-label">Mansioni</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<button *ngIf="buttonAggiungi" class="addDipend" mat-raised-button color="primary" (click)="apriDialogAggiungi()">
+  Aggiungi Dipendente
+</button>
+
+<div class="filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Cerca per nome o cognome</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput [ngModel]="filtroTesto()" (ngModelChange)="filtroTesto.set($event)" placeholder="Cerca...">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Mansione</mat-label>
+    <mat-select [ngModel]="filtroMansione()" (ngModelChange)="filtroMansione.set($event)">
+      <mat-option value="">Tutte</mat-option>
+      <mat-option *ngFor="let m of mansioni()" [value]="m">{{ m }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="tabble">
+  <div class="table-scroll">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let element">{{element.nome}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cognome">
+        <th mat-header-cell *matHeaderCellDef>Cognome</th>
+        <td mat-cell *matCellDef="let element">{{element.cognome}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataAssunzione">
+        <th mat-header-cell *matHeaderCellDef>Data Assunzione</th>
+        <td mat-cell *matCellDef="let element">{{element.dataAssunzione | date:'dd/MM/yyyy'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataDimissione">
+        <th mat-header-cell *matHeaderCellDef>Data Dimissioni</th>
+        <td mat-cell *matCellDef="let element">{{element.dataDimissione | date:'dd/MM/yyyy'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="eta">
+        <th mat-header-cell *matHeaderCellDef>Età</th>
+        <td mat-cell *matCellDef="let element">{{element.eta}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="stipendio">
+        <th mat-header-cell *matHeaderCellDef>Stipendio</th>
+        <td mat-cell *matCellDef="let element">{{element.stipendio}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="mansione">
+        <th mat-header-cell *matHeaderCellDef>Mansione</th>
+        <td mat-cell *matCellDef="let element">{{element.tipologiaLavoro?.descrizione}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="azioni">
+        <th mat-header-cell *matHeaderCellDef>Azioni</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="azioni-cell">
+            <button mat-icon-button color="primary" (click)="apriDialogModifica(element, $event)" matTooltip="Modifica">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminaDipendente(element, $event)" matTooltip="Elimina">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <span class="giorni-badge" [matTooltip]="'Giorni lavorati: ' + getGiorniLavorati(element)" [class.giorni-zero]="getGiorniLavorati(element) === 0">
+              <span [class.pallino-rosso]="getGiorniLavorati(element) === 0" [class.pallino-verde]="getGiorniLavorati(element) > 0"></span>
+              {{ getGiorniLavorati(element) }}g
+
+              <!-- hiui -->
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="onRowClick(row)"
+          class="clickable-row"></tr>
+    </table>
+  </div>
+  <mat-paginator class="custom-paginator" [pageSizeOptions]="[10, 25, 50]" [pageSize]="10" showFirstLastButtons>
+  </mat-paginator>
+</div>

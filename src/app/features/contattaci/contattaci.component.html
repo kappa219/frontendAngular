@@ -1,0 +1,72 @@
+<div class="page-wrapper">
+
+  <div class="page-header">
+    <h1>Contattaci</h1>
+    <p class="subtitle">Siamo qui per aiutarti</p>
+  </div>
+
+  <div class="page-layout">
+
+    <div class="contattaci-container">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">✉️</span>
+          <h2>Email</h2>
+        </div>
+        <p>Per informazioni o supporto scrivici a:</p>
+        <p><span class="highlight">k.manno&#64;betacom.it</span></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">📞</span>
+          <h2>Telefono</h2>
+        </div>
+        <p>Puoi contattarci telefonicamente dal lunedì al venerdì, dalle 9:00 alle 18:00.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🏢</span>
+          <h2>Sede</h2>
+        </div>
+        <p>Betacom S.p.A.</p>
+        <p>Italia</p>
+      </div>
+    </div>
+
+    <div class="container-form">
+      <h2>Invia un messaggio</h2>
+      <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" ngModel required #nome="ngModel" placeholder="Il tuo nome">
+          @if (nome.invalid && nome.touched) {
+            <span class="error">Il nome è obbligatorio</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" ngModel required email #email="ngModel" placeholder="La tua email">
+          @if (email.invalid && email.touched) {
+            <span class="error">Inserisci un'email valida</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="messaggio">Messaggio</label>
+          <textarea id="messaggio" name="messaggio" ngModel required #messaggio="ngModel" rows="5" placeholder="Scrivi il tuo messaggio..."></textarea>
+          @if (messaggio.invalid && messaggio.touched) {
+            <span class="error">Il messaggio è obbligatorio</span>
+          }
+        </div>
+
+        <button type="submit" [disabled]="contactForm.invalid">Invia messaggio</button>
+
+      </form>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">🏢</div>
+    </div>
+    <h2>Accedi al tuo account</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input [type]="mostraPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci password" required>
+          <span class="toggle-password" (click)="mostraPassword = !mostraPassword">
+            {{ mostraPassword ? '🙈' : '👁' }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-login">Accedi</button>
+    </form>
+  </div>
+</div>

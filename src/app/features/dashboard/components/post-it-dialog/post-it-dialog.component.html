@@ -1,0 +1,83 @@
+<div class="post-it-container">
+  <div class="post-it-header">
+    <mat-icon>Note</mat-icon>
+    <h2 mat-dialog-title>Giornata lavorativa</h2>
+     <button class="deletenote" mat-raised-button color="warn" (click)="deletenota()">Elimina</button>
+  </div>
+
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titolo</mat-label>
+      <input matInput [(ngModel)]="nota.titoloNota" placeholder="Titolo della nota..." maxlength="15">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Note</mat-label>
+      <textarea matInput [(ngModel)]="nota.note"
+                placeholder="Scrivi la tua nota..."
+                rows="6"></textarea>
+
+    </mat-form-field>
+    @if (isDuplicate) {
+      <div class="date-range-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Dal</mat-label>
+          <input matInput type="date" [(ngModel)]="dataDaStr">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Al</mat-label>
+          <input matInput type="date" [(ngModel)]="dataAStr">
+        </mat-form-field>
+      </div>
+      @if (rangeInvalido) {
+        <div class="error-message">La data "Al" deve essere successiva alla data "Dal".</div>
+      }
+    } @else {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Data</mat-label>
+        <input matInput type="date" [(ngModel)]="dataString">
+      </mat-form-field>
+    }
+
+    <div class="orari-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Orario Inizio</mat-label>
+        <mat-select [(ngModel)]="oraInizio">
+          @for (ora of oreDisponibili; track ora) {
+            <mat-option [value]="ora">{{ ora }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Orario Fine</mat-label>
+        <mat-select [(ngModel)]="oraFine">
+          @for (ora of oreDisponibili; track ora) {
+            <mat-option [value]="ora">{{ ora }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+         @if(orarioInvalido) {
+        <div class="error-message">
+          L'orario di fine deve essere successivo all'orario di inizio.
+        </div>
+      } 
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    @if (isEdit) {
+      <button mat-stroked-button (click)="duplica()" class="btn-duplica">
+        <mat-icon>content_copy</mat-icon>
+        Duplica
+      </button>
+    }
+    <button mat-button (click)="annulla()">Annulla</button>
+    <button mat-raised-button color="primary" (click)="salva()">
+      <mat-icon>save</mat-icon>
+      Salva
+    </button>
+  </mat-dialog-actions>
+</div>

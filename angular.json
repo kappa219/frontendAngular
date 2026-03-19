@@ -73,7 +73,10 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "frontend_forsharp:build"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

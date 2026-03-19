@@ -1,0 +1,18 @@
+@if (authService.isLoggedIn()) {
+  <nav class="navbar">
+    <div class="nav-brand">Corso DotNet + Angular  </div>
+    <ul class="nav-links">
+      <li><a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a></li>
+      <li><a routerLink="/utenti" routerLinkActive="active-link">Utenti</a></li>
+      <li><a routerLink="/libri" routerLinkActive="active-link">Ore lavorative</a></li>
+      <li><a routerLink="/about" routerLinkActive="active-link">About</a></li>
+        <li><a routerLink="/contattaci" routerLinkActive="active-link">Contattaci</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-theme" (click)="themeService.toggle()" [title]="themeService.isDark ? 'Modalità chiara' : 'Modalità notte'">
+        <span class="theme-icon">{{ themeService.isDark ? '☀' : '☽' }}</span>
+      </button>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+}

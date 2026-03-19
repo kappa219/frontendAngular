@@ -1,1 +1,346 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ========================================
+   CSS VARIABLES - Palette globale
+   ======================================== */
+:root {
+  --primary: #667eea;
+  --primary-dark: #764ba2;
+  --indigo: #3f51b5;
+  --indigo-dark: #1a237e;
+  --surface: #f0f2f9;
+  --card-bg: #ffffff;
+  --text-primary: #1e2532;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --success: #4caf50;
+  --error: #f44336;
+  --shadow-sm: 0 1px 3px rgba(63, 81, 181, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 14px rgba(63, 81, 181, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 30px rgba(63, 81, 181, 0.13), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+/* ========================================
+   RESET & BASE
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eef0f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c9e0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Utility classes riutilizzabili */
+.anim-fade-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.anim-fade {
+  animation: fadeIn 0.35s ease both;
+}
+
+.anim-scale {
+  animation: scaleIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+body[data-theme="dark"] {
+  --surface: #0d1117;
+  --card-bg: #161b27;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border: #2d3748;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background-color: var(--surface);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Transizione fluida sul body */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- Material Table --- */
+body[data-theme="dark"] .mat-mdc-table,
+body[data-theme="dark"] .mat-mdc-header-row,
+body[data-theme="dark"] .mat-mdc-row,
+body[data-theme="dark"] .mdc-data-table__content {
+  background-color: var(--card-bg) !important;
+}
+
+body[data-theme="dark"] .mat-mdc-header-cell {
+  color: var(--text-secondary) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .mat-mdc-cell {
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .mat-mdc-row:hover td {
+  background-color: rgba(102, 126, 234, 0.08) !important;
+}
+
+/* --- Material Card --- */
+body[data-theme="dark"] .mat-mdc-card {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* --- Material Dialog --- */
+body[data-theme="dark"] .mat-mdc-dialog-container,
+body[data-theme="dark"] .mdc-dialog__surface {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* --- Material Form Field --- */
+body[data-theme="dark"] .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+body[data-theme="dark"] .mat-mdc-input-element,
+body[data-theme="dark"] .mat-mdc-select-value,
+body[data-theme="dark"] .mat-mdc-select-value-text {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .mdc-floating-label,
+body[data-theme="dark"] .mat-mdc-form-field-hint {
+  color: var(--text-secondary) !important;
+}
+
+/* --- Material Select Panel --- */
+body[data-theme="dark"] .mat-mdc-select-panel,
+body[data-theme="dark"] .mat-mdc-autocomplete-panel {
+  background-color: var(--card-bg) !important;
+}
+
+body[data-theme="dark"] .mat-mdc-option {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .mat-mdc-option:hover,
+body[data-theme="dark"] .mat-mdc-option.mdc-list-item--selected {
+  background-color: rgba(102, 126, 234, 0.15) !important;
+}
+
+/* --- Material Paginator --- */
+body[data-theme="dark"] .mat-mdc-paginator {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* --- Scrollbar dark --- */
+body[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #1a1d2e;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #3d4466;
+}
+
+/* ========================================
+   DARK MODE - Override componenti custom
+   ======================================== */
+
+/* Titoli h1 */
+body[data-theme="dark"] h1 {
+  color: var(--text-primary) !important;
+}
+
+/* Dashboard - filtri e action bar */
+body[data-theme="dark"] .filters {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .action-bar {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+/* Dashboard - stat cards */
+body[data-theme="dark"] .stat-card {
+  border-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .stat-value {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .stat-label {
+  color: var(--text-secondary) !important;
+}
+
+/* Dashboard - tabella righe */
+body[data-theme="dark"] .demo-table .mat-mdc-row .mat-mdc-cell {
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .demo-table .mat-mdc-row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+body[data-theme="dark"] .demo-table .mat-mdc-row:hover,
+body[data-theme="dark"] .demo-table .mat-mdc-row:nth-child(even):hover {
+  background-color: rgba(102, 126, 234, 0.12) !important;
+}
+
+/* Dettaglio dipendente - info items */
+body[data-theme="dark"] .info-item {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+body[data-theme="dark"] .value {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .label {
+  color: var(--text-secondary) !important;
+}
+
+/* About + Contattaci - card custom */
+body[data-theme="dark"] .card {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .card h2 {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .card p {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] .subtitle {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] .page-header {
+  border-bottom-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .section-label {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] .contact-item {
+  color: var(--text-secondary) !important;
+}
+
+/* Contattaci - form */
+body[data-theme="dark"] .container-form {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .container-form h2 {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .form-group label {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] .form-group input,
+body[data-theme="dark"] .form-group textarea {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .form-group input:focus,
+body[data-theme="dark"] .form-group textarea:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--primary) !important;
+}
+
+body[data-theme="dark"] .form-group input::placeholder,
+body[data-theme="dark"] .form-group textarea::placeholder {
+  color: #4a5568 !important;
+}

@@ -1,0 +1,301 @@
+/* ========================================
+   HOST - Layout principale
+   ======================================== */
+:host {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+/* ========================================
+   HEADER PAGINA
+   ======================================== */
+h1 {
+  margin: 28px 0 24px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a237e;
+  letter-spacing: -0.5px;
+  border-left: 4px solid #3f51b5;
+  padding-left: 14px;
+  animation: fadeInUp 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* ========================================
+   STATS CARDS
+   ======================================== */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  border-radius: 14px !important;
+  border: 1px solid #e8eaf6 !important;
+  box-shadow: 0 2px 8px rgba(63, 81, 181, 0.08) !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.12s; }
+.stat-card:nth-child(3) { animation-delay: 0.19s; }
+.stat-card:nth-child(4) { animation-delay: 0.26s; }
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(63, 81, 181, 0.18) !important;
+}
+
+.stat-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px !important;
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1a237e;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9e9e9e;
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================
+   PULSANTE AGGIUNGI
+   ======================================== */
+.addDipend {
+  margin: 0 0 20px 0;
+  border-radius: 8px !important;
+  padding: 0 20px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(63, 81, 181, 0.25) !important;
+}
+
+/* ========================================
+   FILTRI - Panel
+   ======================================== */
+.filters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e8eaf6;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 6px rgba(63, 81, 181, 0.06);
+  animation: fadeInUp 0.45s 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.filters mat-form-field {
+  min-width: 240px;
+  flex: 1;
+}
+
+/* ========================================
+   TABELLA - Container
+   ======================================== */
+.tabble {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(63, 81, 181, 0.1);
+  animation: fadeInUp 0.45s 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.table-scroll {
+  min-height: 530px;
+  overflow-y: auto;
+}
+
+.demo-table {
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+/* ========================================
+   TABELLA - Header
+   ======================================== */
+::ng-deep .demo-table .mat-mdc-header-row {
+  background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%) !important;
+}
+
+::ng-deep .demo-table .mat-mdc-header-cell {
+  color: white !important;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 14px 16px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================
+   TABELLA - Righe
+   ======================================== */
+::ng-deep .demo-table .mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid #eeeeee;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #424242;
+}
+
+::ng-deep .demo-table .mat-mdc-row:hover {
+  background-color: #e8eaf6 !important;
+  transition: background-color 0.15s ease;
+}
+
+::ng-deep .demo-table .mat-mdc-row:nth-child(even) {
+  background-color: #f8f9ff;
+}
+
+::ng-deep .demo-table .mat-mdc-row:nth-child(even):hover {
+  background-color: #e8eaf6 !important;
+}
+
+/* ========================================
+   TABELLA - Colonne
+   ======================================== */
+.mat-column-nome,
+.mat-column-cognome {
+  min-width: 100px;
+}
+
+.mat-column-dataAssunzione,
+.mat-column-dataDimissione {
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.mat-column-eta {
+  min-width: 60px;
+  text-align: center;
+}
+
+.mat-column-stipendio {
+  min-width: 90px;
+}
+
+.mat-column-mansione {
+  min-width: 120px;
+}
+
+.mat-column-azioni {
+  min-width: 110px;
+  white-space: nowrap;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+/* ========================================
+   AZIONI CELLA
+   ======================================== */
+.azioni-cell {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ========================================
+   BADGE GIORNI LAVORATI
+   ======================================== */
+.giorni-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  border: 1px solid #c8e6c9;
+}
+
+.pallino-verde {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #43a047;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.pallino-rosso {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #e53935;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.giorni-zero {
+  color: #c62828;
+  background-color: #ffebee;
+  border-color: #ffcdd2;
+}
+
+/* ========================================
+   PAGINATOR
+   ======================================== */
+::ng-deep .custom-paginator.mat-mdc-paginator {
+  background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%) !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 0 0 12px 12px;
+}
+
+::ng-deep .custom-paginator .mat-mdc-paginator-range-label {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 13px;
+}
+
+::ng-deep .custom-paginator .mat-mdc-icon-button {
+  color: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-icon-button .mat-mdc-paginator-icon {
+  fill: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-select-value,
+::ng-deep .custom-paginator .mat-mdc-select-arrow {
+  color: white !important;
+}
+
+::ng-deep .custom-paginator .mat-mdc-form-field-underline {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
