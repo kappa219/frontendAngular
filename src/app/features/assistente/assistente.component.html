@@ -1,0 +1,54 @@
+<div class="chat-page">
+
+  <div class="chat-header">
+    <div class="chat-header-icon">🤖</div>
+    <div>
+      <h1>Assistente Animali da compagnia</h1>
+      <span class="chat-subtitle">Fai domanda su Animali e insetti</span>
+    </div>
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      Online
+    </div>
+  </div>
+
+  <div class="chat-body" #chatBody>
+    @for (msg of messaggi(); track $index) {
+      <div class="messaggio" [class.utente]="msg.ruolo === 'utente'" [class.assistente]="msg.ruolo === 'assistente'">
+        @if (msg.ruolo === 'assistente') {
+          <div class="avatar">🤖</div>
+        }
+        <div class="bolla" [class.caricamento]="msg.caricamento">
+          @if (msg.caricamento) {
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          } @else {
+            {{ msg.testo }}
+          }
+        </div>
+        @if (msg.ruolo === 'utente') {
+          <div class="avatar utente-avatar">👤</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="chat-footer">
+    <textarea
+      [(ngModel)]="domanda"
+      (keydown)="inviaConEnter($event)"
+      placeholder="Scrivi la tua domanda..."  
+      rows="1"
+      [disabled]="inCaricamento">
+    </textarea>
+    <button class="btn-invia" (click)="invia()" [disabled]="inCaricamento || !domanda.trim()">
+      @if (inCaricamento) {
+        ⏳
+      } @else {
+        ➤
+      }
+    </button>
+  </div>
+
+</div>
