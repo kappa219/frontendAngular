@@ -20,7 +20,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: #4285f4;
+  background-color: #3f51b5;
   color: white;
 }
 
@@ -64,9 +64,9 @@
 }
 
 .view-toggle button.active {
-  background-color: #4285f4;
+  background-color: #3f51b5;
   color: white;
-  border-color: #4285f4;
+  border-color: #3f51b5;
 }
 
 .view-toggle button:hover:not(.active) {
@@ -125,7 +125,7 @@
 }
 
 .month-view .days-grid div.today .day-number {
-  background-color: #4285f4;
+  background-color: #3f51b5;
   color: white;
   border-radius: 50%;
   width: 36px;
@@ -189,7 +189,7 @@
 }
 
 .day-column-header.today .day-number {
-  background-color: #4285f4;
+  background-color: #3f51b5;
   color: white;
   border-radius: 50%;
   width: 40px;
@@ -240,8 +240,8 @@
    EVENTI - Blocco visivo continuo
    ======================================== */
 .work-hour {
-  background-color: #4285f4;
-  border-left: 4px solid #1a56db;
+  background-color: #3f51b5;
+  border-left: 4px solid #283593;
   border-right: 1px solid #eee;
   color: white;
 }
@@ -275,8 +275,8 @@
 }
 
 .work-hour:hover {
-  background-color: #3367c7;
-  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+  background-color: #33449c;
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.4);
   transform: translate(-2px, -2px);
 }
 /* ========================================
@@ -291,7 +291,7 @@
 .day-detail h3 {
   margin: 0 0 12px 0;
   font-size: 16px;
-  color: #4285f4;
+  color: #3f51b5;
   font-weight: 600;
 }
 
@@ -317,20 +317,20 @@
   padding: 10px 14px;
   background: white;
   border: 1px solid #e0e0e0;
-  border-left: 4px solid #4285f4;
+  border-left: 4px solid #3f51b5;
   border-radius: 6px;
   cursor: pointer;
   transition: box-shadow 0.2s, transform 0.1s;
 }
 
 .events-list li:hover {
-  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.2);
+  box-shadow: 0 2px 8px rgba(63, 81, 181, 0.2);
   transform: translateX(2px);
 }
 
 .event-time {
   font-size: 13px;
-  color: #4285f4;
+  color: #3f51b5;
   font-weight: 600;
   white-space: nowrap;
 }

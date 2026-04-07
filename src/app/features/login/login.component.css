@@ -75,7 +75,7 @@
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
-  background: white;
+  background: #ffffff;
 }
 
 .form-group input::placeholder {
@@ -136,4 +136,51 @@
   margin-bottom: 16px;
   font-size: 13px;
   font-weight: 500;
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #1e2532;
+  -webkit-box-shadow: 0 0 0 1000px #fafbff inset;
+  box-shadow: 0 0 0 1000px #fafbff inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+:host-context(body[data-theme="dark"]) .login-card {
+  background: #161b27;
+}
+
+:host-context(body[data-theme="dark"]) .login-card h2 {
+  color: #e2e8f0;
+}
+
+:host-context(body[data-theme="dark"]) .form-group label {
+  color: #94a3b8;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #2d3748;
+  color: #e2e8f0;
+  -webkit-text-fill-color: #e2e8f0;
+  caret-color: #e2e8f0;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #667eea;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input::placeholder {
+  color: #64748b;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input:-webkit-autofill,
+:host-context(body[data-theme="dark"]) .form-group input:-webkit-autofill:hover,
+:host-context(body[data-theme="dark"]) .form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e2e8f0;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset;
+  caret-color: #e2e8f0;
 }

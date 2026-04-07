@@ -23,6 +23,16 @@
   animation: fadeInUp 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
+.btn-torna-lista {
+  color: #3f51b5 !important;
+  border-color: #3f51b5 !important;
+}
+
+:host-context(body[data-theme="dark"]) .btn-torna-lista {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
 .action-bar-right {
   display: flex;
   align-items: center;
@@ -124,6 +134,10 @@
   gap: 10px;
 }
 
+.dettaglio-card mat-card-subtitle {
+  color: #ffffff !important;
+}
+
 .pallino {
   display: inline-block;
   width: 14px;
@@ -207,4 +221,3 @@
     grid-template-columns: 1fr;
   }
 }
-
