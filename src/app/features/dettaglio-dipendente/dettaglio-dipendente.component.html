@@ -1,0 +1,84 @@
+
+
+
+
+
+<div class="container">
+
+  <div class="action-bar">
+    <button class="btn-torna-lista" mat-stroked-button (click)="tornaIndietro()">
+      ← Torna alla lista
+    </button>
+    <div class="action-bar-right">
+      @if (notifica()) {
+        <div class="notifica-report">{{ notifica() }}</div>
+      }
+      @if (error()) {
+        <span class="error-inline">{{ error() }}</span>
+      }
+      <button mat-raised-button color="primary" (click)="downloadReportAnnuale()">
+        Scarica Report Annuale
+      </button>
+
+      <button mat-raised-button color="accent" (click)=" generaReportAnnuale()">
+        generaReportAnnuale
+      </button>
+    </div>
+  </div>
+
+  @if (dipendente(); as dip) {
+    <div class="page-layout">
+      <!-- Sidebar con info dipendente -->
+      <div class="sidebar">
+        <div class="dettaglio-wrapper">
+          <img class="imgdettaglio"
+            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAxgMBIgACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAABAUGAgMBB//EADgQAAEDAQQHBQYFBQAAAAAAAAABAgMEBREhMRIVQVFTcaETIjJhgRQzUpHB0UJykrHhJDRDYoL/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AP1sAFQAAAAAAAB85Hx72xtVz3I1qbVU5mlZDG6SR1zW9TPVtW+rk0nYMRe6zcBOqbYuW6mbf/u77ECStqpPFPJ6LcRwVHfay339rJ+tT2hr6qLwzOVNzsSMAq6pbXY5dCoZor8aZFmio5EVuKLku8yRNs+ufSu0Xd6JVxRdnIDQg5Y5HsRzVvRclTadEAAAAAAAAAAAAAAAAAAAADxq5uwppJUzamHPYBTWvVdtP2TPBGty+akAY7c9oKgAAAAAAAC2sWqVHLTPyXFnku1C4MpFIsUjZG5tW9DUscj2Ne3JyXikdAAigAAAAAAAAAAAAAAABX22+6ju+JyJ9SwK23U/pmeT/oBRgA0gACAAAAAAGksx+nQQquaIqfJbvoZs0VkpdQR81/dQqYACAAAAAAAAAAAAAAAAAQ7Wj7Shkuzbc75LiTD45qOY5q4o5LlAyQPWqhdBUPid+Fc9+48ioAAAAAAAAGoo4+ypYmLm1qXlDZ0HtFWxt3db3ncjSBQAEAAAAAAAAAAAAAAAAAAAQLVo1qI+1iS+RqZb0KD5mu5FdaFmpOqyQK1JNqbHAUQOpI3xOVsjHMcmxTkqAAAHTWue5GtS9VyQ7ghlnfoRMVy9P4Lugs9tKmm/vSb93Iaruz6T2aG53jdi77EsAgAAAAAAAAAAAAAAAAAAAAuGeCJneQai1YIcGKsjtzVw+YE4+KtyYrdzKGa1ah/u9GNF3Yr8yHJLJIt8kjnc3FwaKolo3JoTviXyVStlhsv8M7mflxQrPRPQBE7sLPv/ALx/6F+xIgistq4zaf570QqQBqIZafR0YJI7tzVQ9s8jJXnpFUzRe7ke3/oYrUgo4LXmZckrGyJvTBSypq+nqLka5WO+F+CkEoAAAAAAAAAAAAAAAAi1lbFStVHd6RfC1PqeNpV/s6dlCqLKu3Y0onOc5yucqq5c1XaBIqa2ap8blRmxjcv5I2PpyAKgAAAAAAAAAAAXEACbSWlNT3I5VkZuXNOSl3T1EVQzSiffvTanMy56QTPgkSSJ2iqbtoVqgRaKsZVR3pcj2+Ju7z5EogAAAAAAAAepEtCr9lhvT3j8Gp9SWZq0Z/aal7r+6ndbyQCO5Vc5VVb1Vb1PgBUAAAAAAAAAAAAAAAAAAB6QTPglbLHg5OqbjS00zaiFsjMEXZu8jLFlYs+hP2Llwky8lFVeAAgAAAAAPCuk7KjlemejcnNcEMwm5MjUVVO2phWJ7nNRdqELU0C/5JehYKQF3qWDiydBqWDiydAikBd6lg4snQalg4snQCkBd6lg4snQalg4snQCkBd6lg4snQalg4snQCkBd6lg4snQalg4snQCkBd6lg4snQalg4snQCkBd6lg4snQalg4snQCkBd6lg4snQalg4snQCkOo3uikbI3xNW9PQudSwcWToNSwcWToKqyvvS9Mj6cxsRkbWIqqjUREVfI6IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/9k=">
+
+          <mat-card class="dettaglio-card">
+            <mat-card-header>
+              <mat-card-title class="title-with-status">
+                {{ dip.nome }} {{ dip.cognome }}
+                <span class="pallino" [class.in-servizio]="!dip.dataDimissione" [class.dimesso]="dip.dataDimissione"></span>
+              </mat-card-title>
+              <mat-card-subtitle>{{ dip.tipologiaLavoro?.descrizione }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">Eta</span>
+                  <span class="value">{{ dip.eta }} anni</span>
+                </div>
+
+                <div class="info-item">
+                  <span class="label">Stipendio</span>
+                  <span class="value">{{ dip.stipendio | currency:'EUR' }}</span>
+                </div>
+
+                <div class="info-item">
+                  <span class="label">Data Assunzione</span>
+                  <span class="value">{{ dip.dataAssunzione | date:'dd/MM/yyyy' }}</span>
+                </div>
+
+                <div class="info-item">
+                  <span class="label">Data Dimissione</span>
+                  <span class="value">{{ dip.dataDimissione ? (dip.dataDimissione | date:'dd/MM/yyyy') : 'In servizio' }}</span>
+                </div>
+
+                <div class="info-item">
+                  <span class="label">Mansione</span>
+                  <span class="value">{{ dip.tipologiaLavoro?.descrizione || 'Non specificata' }}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Calendario -->
+      <div class="calendar-container">
+        <app-calendar [dipendenteId]="dip.id!"></app-calendar>
+      </div>
+    </div>
+  }
+</div>

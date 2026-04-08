@@ -1,0 +1,186 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  padding: 44px 40px 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  max-width: 400px;
+  animation: scaleIn 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-logo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+  font-size: 26px;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin: 0 0 28px;
+  color: #1e2532;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: #374151;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  background: #fafbff;
+  color: #1e2532;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+  background: #ffffff;
+}
+
+.form-group input::placeholder {
+  color: #b0b8c8;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 6px;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.45);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 46px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 17px;
+  user-select: none;
+  line-height: 1;
+}
+
+.error-message {
+  background-color: #fdecea;
+  color: #b71c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border-left: 4px solid #d32f2f;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #1e2532;
+  -webkit-box-shadow: 0 0 0 1000px #fafbff inset;
+  box-shadow: 0 0 0 1000px #fafbff inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+:host-context(body[data-theme="dark"]) .login-card {
+  background: #161b27;
+}
+
+:host-context(body[data-theme="dark"]) .login-card h2 {
+  color: #e2e8f0;
+}
+
+:host-context(body[data-theme="dark"]) .form-group label {
+  color: #94a3b8;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #2d3748;
+  color: #e2e8f0;
+  -webkit-text-fill-color: #e2e8f0;
+  caret-color: #e2e8f0;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #667eea;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input::placeholder {
+  color: #64748b;
+}
+
+:host-context(body[data-theme="dark"]) .form-group input:-webkit-autofill,
+:host-context(body[data-theme="dark"]) .form-group input:-webkit-autofill:hover,
+:host-context(body[data-theme="dark"]) .form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e2e8f0;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset;
+  caret-color: #e2e8f0;
+}

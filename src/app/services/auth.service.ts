@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 export interface User {
+  id?: string;
   username: string;
   email: string;
   token?: string;
@@ -68,7 +69,8 @@ export class AuthService {
       const decoded = this.decodeToken(token);
       if (decoded) {
         this.currentUser.set({
-          username: decoded.username || decoded.sub,
+          id: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+          username: decoded.username || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
           email: decoded.email || '',
           role: decoded.role || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
         });

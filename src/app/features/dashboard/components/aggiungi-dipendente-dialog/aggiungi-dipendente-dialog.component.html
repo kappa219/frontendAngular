@@ -1,0 +1,80 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <mat-icon>{{ isModifica ? 'edit' : 'person_add' }}</mat-icon>
+    <h2 mat-dialog-title>{{ isModifica ? 'Modifica Dipendente' : 'Aggiungi Dipendente' }}</h2>
+  </div>
+
+  <mat-dialog-content>
+    
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="dipendente.nome" required>
+        <mat-icon matPrefix>badge</mat-icon>
+      </mat-form-field>
+
+
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cognome</mat-label>
+        <input matInput [(ngModel)]="dipendente.cognome" required>
+        <mat-icon matPrefix>badge</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Codice Fiscale</mat-label>
+        <input matInput [(ngModel)]="dipendente.codiceFiscale" (input)="dipendente.codiceFiscale = dipendente.codiceFiscale.toUpperCase()" required style="text-transform: uppercase">
+        <mat-icon matPrefix>badge</mat-icon>
+      </mat-form-field>
+
+
+
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Età</mat-label>
+        <input matInput type="number" [(ngModel)]="dipendente.eta" min="16" max="99" required>
+        <mat-icon matPrefix>cake</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Stipendio</mat-label>
+        <input matInput type="number" [(ngModel)]="dipendente.stipendio" min="0">
+        <mat-icon matPrefix>euro</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Data Assunzione</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="dipendente.dataAssunzione" required>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Mansione</mat-label>
+      <mat-select [(ngModel)]="dipendente.tipologiaLavoroId" required>
+        @for (tipologia of tipologieLavoro(); track tipologia.id) {
+          <mat-option [value]="tipologia.id">{{tipologia.descrizione}}</mat-option>
+        }
+      </mat-select>
+      <mat-icon matPrefix>work</mat-icon>
+    </mat-form-field>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="annulla()">Annulla</button>
+    <button mat-raised-button color="primary" (click)="salva()" [disabled]="!isFormValido()">
+      <mat-icon>save</mat-icon>
+      Salva
+    </button>
+  </mat-dialog-actions>
+</div>
