@@ -26,16 +26,18 @@ export class NotFoundComponent implements OnInit, OnDestroy {
     //this.previousTheme = body.getAttribute('data-theme');
     //this.renderer.setAttribute(body, 'data-theme', 'light');
 
-    //this.disableIntervalId =
-     window.setInterval(() => {
-      this.isDisabled = !this.isDisabled;
-    }, 2000);
+    const win = this.document.defaultView;
+    if (win) {
+      this.disableIntervalId = win.setInterval(() => {
+        this.isDisabled = !this.isDisabled;
+      }, 2000);
+    }
 
-  //  this.startDisableToggle();
+    this.startDisableToggle();
   }
 
   ngOnDestroy(): void {
-   // this.stopDisableToggle();
+    this.stopDisableToggle();
     if (this.disableIntervalId !== null) {
       clearInterval(this.disableIntervalId);
       this.disableIntervalId = null;
