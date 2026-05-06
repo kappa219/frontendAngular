@@ -24,6 +24,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -67,7 +72,8 @@
               "buildTarget": "frontend_forsharp:build:production"
             },
             "development": {
-              "buildTarget": "frontend_forsharp:build:development"
+              "buildTarget": "frontend_forsharp:build:development",
+              "prebundle": false
             }
           },
           "defaultConfiguration": "development"
@@ -90,6 +96,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [

@@ -1,0 +1,135 @@
+.not-found {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.not-found::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://cdn.pixabay.com/photo/2020/11/23/03/13/maze-5768511_640.jpg'), url('/labirinto-bg.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.not-found > * {
+  position: relative;
+  z-index: 1;
+}
+
+.not-found-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0px;
+  transform: translateX(-7%);
+}
+
+.login-pack {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 180ms ease;
+  will-change: transform;
+}
+
+.not-found h1 {
+  font-size: 72px;
+  line-height: 1;
+  margin: 0;
+}
+
+.not-found-code {
+  animation: notFoundColorCycle 8s linear infinite;
+}
+
+@keyframes notFoundColorCycle {
+  0% {
+    color: #e53935;
+  }
+  20% {
+    color: #fb8c00;
+  }
+  40% {
+    color: #fdd835;
+  }
+  60% {
+    color: #43a047;
+  }
+  80% {
+    color: #1e88e5;
+  }
+  100% {
+    color: #8e24aa;
+  }
+}
+
+.not-found h2 {
+  margin: 0;
+}
+
+.not-found h3 {
+  margin: 0;
+}
+
+.not-found p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.actions.actions-hero {
+  margin-top: 0;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: #1976d2;
+  color: #fff;
+}
+
+.btn.btn-secondary {
+  background: #455a64;
+}
+
+.jitter-btn {
+  position: relative;
+  transition: transform 180ms ease;
+  will-change: transform;
+}
+
+.not-found-image {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  flex: 0 0 auto;
+  margin: 0;
+}

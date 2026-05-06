@@ -1,0 +1,40 @@
+<div class="not-found">
+  <div class="not-found-hero">
+    <div class="login-pack" [style.transform]="loginPackTransform">
+      <img
+        src="assets/images/amelia_290-remove.png"
+        alt="Not Found"
+        class="not-found-image"
+      >
+      <a
+        class="btn btn-secondary jitter-btn"
+        routerLink="/login"
+        (mouseenter)="jitterLoginButton()"
+      >
+        Vai al login
+      </a>
+    </div>
+
+    <div class="actions actions-hero">
+      <a
+        class="btn jitter-btn"
+        routerLink="/dashboard"
+        (mouseenter)="jitterDashboardButton()"
+        [style.transform]="dashboardButtonTransform"
+      >
+        Vai alla dashboard
+      </a>
+    </div>
+  </div>
+ 
+  <h1 class="not-found-code">404</h1>
+  <h1>Ti sei perso?</h1>
+  <h3>Pagina non trovata</h3>
+
+  <button [disabled]="isDisabled" class="btn btn-secondary jitter-btn"  >
+    Torna indietro [{{ isDisabled ? 'Disabilitato' : 'Abilitato' }}]
+  </button>
+  
+  
+  <p>L’URL che hai inserito non esiste o è stata spostata.</p>
+</div>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <pattern id="maze" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M0 0H64V64H0Z" fill="none"/>
+      <g stroke="#0b1220" stroke-opacity="0.35" stroke-width="8" fill="none" shape-rendering="crispEdges">
+        <path d="M4 4H60V60H4Z"/>
+        <path d="M4 32H28M36 32H60"/>
+        <path d="M32 4V20M32 28V44M32 52V60"/>
+        <path d="M12 12V28H20V44H12V52"/>
+        <path d="M52 12V20H44V36H52V52"/>
+        <path d="M20 20H28V12"/>
+        <path d="M44 44H36V52"/>
+      </g>
+    </pattern>
+  </defs>
+
+  <rect width="256" height="256" fill="url(#maze)"/>
+</svg>
+

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,11 @@ export class LoginComponent {
   errorMessage: string = '';
   mostraPassword: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   onSubmit(): void {
     this.errorMessage = '';
@@ -25,7 +29,8 @@ export class LoginComponent {
       next: (response: any) => {
         console.log('Login successful:', response);
         this.authService.setUser(response.user, response.token);
-        this.router.navigate(['/dashboard']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        this.router.navigateByUrl(returnUrl ?? '/dashboard');
       },
       error: (error: any) => {
         console.error('Login fallita:', error);

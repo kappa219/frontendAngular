@@ -6,13 +6,15 @@ import { authGuard } from './guards/auth.guard';
 import { AboutComponent } from './features/about/about.component';
 import { ContattaciComponent } from './features/contattaci/contattaci.component';
 import { AssistenteComponent } from './features/assistente/assistente.component';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'dipendente/:id', component: DettaglioDipendenteComponent, canActivate: [authGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'about', component: AboutComponent, canActivate: [authGuard] },
   { path: 'contattaci', component: ContattaciComponent, canActivate: [authGuard] },
   { path: 'assistente', component: AssistenteComponent, canActivate: [authGuard] },
+  { path: '**', component: NotFoundComponent },
 ];
