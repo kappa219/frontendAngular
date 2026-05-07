@@ -16,6 +16,11 @@
             "outputPath": "dist/frontend_forsharp",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "optimization": {
+              "fonts": {
+                "inline": false
+              }
+            },
             "polyfills": [
               "zone.js"
             ],

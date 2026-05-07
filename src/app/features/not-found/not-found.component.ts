@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { log } from 'console';
 
 @Component({
   selector: 'app-not-found',
@@ -27,6 +28,7 @@ export class NotFoundComponent implements OnInit, OnDestroy {
     //this.renderer.setAttribute(body, 'data-theme', 'light');
 
     const win = this.document.defaultView;
+    console.log('Window object:', win);
     if (win) {
       this.disableIntervalId = win.setInterval(() => {
         this.isDisabled = !this.isDisabled;

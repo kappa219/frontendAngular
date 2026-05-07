@@ -15,6 +15,8 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
   mostraPassword: boolean = false;
+  rememberMe: boolean = true;
+  isSubmitting: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -23,7 +25,9 @@ export class LoginComponent {
   ) { }
 
   onSubmit(): void {
+    if (this.isSubmitting) return;
     this.errorMessage = '';
+    this.isSubmitting = true;
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response: any) => {
@@ -41,6 +45,10 @@ export class LoginComponent {
         } else {
           this.errorMessage = error.error?.message || 'Errore durante il login.';
         }
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        this.isSubmitting = false;
       }
     });
   }

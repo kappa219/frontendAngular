@@ -1,36 +1,97 @@
-  
 <div class="login-container">
+  <div class="login-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="grid"></span>
+  </div>
+
   <div class="login-heading">
     <h1>Benvenuto in Gestione Aziendale </h1>
-    <br>
-    <h5>Accedi al tuo account per gestire la tua azienda in modo efficiente</h5>
+    <p class="login-subtitle">Accedi per gestire clienti, ordini e report in modo semplice e sicuro.</p>
   </div>
+
   <div class="login-card">
     <div class="login-logo">
       <div class="login-logo-icon">🏢</div>
     </div>
-    <h2>Accedi al tuo account</h2>
-    <form (ngSubmit)="onSubmit()">
+    <h2>Accedi</h2>
+    <p class="login-hint">Usa le credenziali aziendali. La sessione è protetta con token.</p>
+    <form (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci email" required>
+        <div class="input-with-icon">
+          <span class="input-icon" aria-hidden="true">✉️</span>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="nome@azienda.it"
+            autocomplete="email"
+            inputmode="email"
+            required
+            [attr.aria-invalid]="errorMessage ? 'true' : 'false'"
+            aria-describedby="login-help"
+          >
+        </div>
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
         <div class="password-wrapper">
-          <input [type]="mostraPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci password" required>
-          <span class="toggle-password" (click)="mostraPassword = !mostraPassword">
+          <span class="input-icon left" aria-hidden="true">🔒</span>
+          <input
+            [type]="mostraPassword ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Inserisci la tua password"
+            autocomplete="current-password"
+            required
+            [attr.aria-invalid]="errorMessage ? 'true' : 'false'"
+            aria-describedby="login-help"
+          >
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="mostraPassword = !mostraPassword"
+            [attr.aria-label]="mostraPassword ? 'Nascondi password' : 'Mostra password'"
+          >
             {{ mostraPassword ? '🙈' : '👁' }}
-          </span>
+          </button>
         </div>
       </div>
 
-      <div *ngIf="errorMessage" class="error-message">
+      <div id="login-help" class="login-help">
+        Suggerimento: controlla maiuscole/minuscole e lo stato del CAPS LOCK.
+      </div>
+
+      <div class="login-row">
+        <label class="remember-me">
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+          <span>Resta collegato</span>
+        </label>
+        <a class="forgot-link" href="#" (click)="$event.preventDefault()">Password dimenticata?</a>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message" role="alert" aria-live="polite">
         {{ errorMessage }}
       </div>
 
-      <button type="submit" class="btn-login">Accedi</button>
+      <button type="submit" class="btn-login" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">Accedi</span>
+        <span *ngIf="isSubmitting" class="btn-loading" aria-hidden="true"></span>
+        <span *ngIf="isSubmitting">Accesso in corso…</span>
+      </button>
     </form>
+    <div class="login-footer">
+      <div class="trust">
+        <span aria-hidden="true">🛡️</span>
+        <span>Dati cifrati in transito</span>
+      </div>
+      <div class="mini-features">
+        <span>Dashboard</span><span class="dot" aria-hidden="true">•</span><span>Fatture</span><span class="dot" aria-hidden="true">•</span><span>Report</span>
+      </div>
+    </div>
   </div>
 </div>
