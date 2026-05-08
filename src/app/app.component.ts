@@ -12,3 +12,4 @@ import { FooterComponent } from './core/footer/footer.component';
 export class AppComponent {
   title = 'frontend_forsharp';
 }
+// --- IGNORE ---
